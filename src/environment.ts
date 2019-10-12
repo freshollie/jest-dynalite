@@ -9,6 +9,10 @@ const port =
 process.env.MOCK_DYNAMODB_PORT = port.toString();
 process.env.MOCK_DYNAMODB_ENDPOINT = `localhost:${port}`;
 
+// aws-sdk requires access and secret key to be able to call DDB
+process.env.AWS_ACCESS_KEY_ID = "access-key";
+process.env.AWS_SECRET_ACCESS_KEY = "secret-key";
+
 export default class DynaliteEnvironment extends NodeEnvironment {
   private dynaliteInstance = dynalite({
     createTableMs: 0,
