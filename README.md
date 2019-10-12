@@ -1,5 +1,9 @@
 # jest-dynalite
 
+![Pipeline status](https://github.com/freshollie/jest-dynalite/workflows/Pipeline/badge.svg)
+![Npm version](https://img.shields.io/npm/v/jest-dynalite)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+
 > Enchanced `@shelf/jest-dynamodb`
 
 `jest-dynalite` is a fork of `@shelf/jest-dynamodb` used to allow unit tests
