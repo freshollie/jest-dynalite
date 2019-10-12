@@ -4,7 +4,7 @@ const ddb = new DocumentClient({
   convertEmptyValues: true,
   endpoint: process.env.MOCK_DYNAMODB_ENDPOINT,
   sslEnabled: false,
-  region: "local2"
+  region: "local"
 });
 
 it("should not share data between test suites", async () => {

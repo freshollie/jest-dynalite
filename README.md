@@ -40,3 +40,22 @@ which should exist for your tests.
   "basePort": 8000
 }
 ```
+
+Usage
+
+```javascript
+const ddb = new DocumentClient({
+  ...yourConfig,
+  ...(process.env.MOCK_DYNAMODB_ENDPOINT && {
+    endpoint: process.env.MOCK_DYNAMODB_ENDPOINT,
+    sslEnabled: false,
+    region: "local"
+  })
+});
+```
+
+`process.env.MOCK_DYNAMODB_ENDPOINT` is unqiue to test runner
+
+## License
+
+`MIT`
