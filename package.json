@@ -1,55 +1,60 @@
 {
-  "name": "@shelf/jest-dynamodb",
-  "version": "1.4.1",
-  "description": "Run your tests using Jest & DynamoDB local",
+  "name": "jest-dynalite",
+  "version": "1.0.1",
+  "description": "Run your tests using Jest & Dynalite",
   "license": "MIT",
-  "repository": "shelfio/jest-dynamodb",
+  "repository": "https://github.com/freshollie/jest-dynalite",
   "author": {
-    "name": "Vlad Holubiev",
-    "email": "vlad@shelf.io",
-    "url": "shelf.io"
+    "name": "Oliver Bell",
+    "email": "freshollie@gmail.com",
+    "url": "https://ollie.codes"
   },
   "engines": {
     "node": ">=8"
   },
   "scripts": {
     "coverage": "jest --coverage",
-    "lint": "eslint . --fix",
-    "test": "export ENVIRONMENT=local && jest . --runInBand"
+    "lint": "eslint --ext js,jsx,ts,tsx .",
+    "test": "jest",
+    "build": "rm -rf dist && tsc",
+    "pretest": "yarn build",
+    "prepare": "yarn build"
   },
   "files": [
-    "environment.js",
-    "jest-preset.js",
-    "setup.js",
-    "teardown.js"
+    "dist",
+    "jest-preset.js"
   ],
-  "main": "src/index.js",
   "keywords": [
     "jest",
     "dynamodb",
     "dynamodb local",
+    "dynalite",
     "jest preset",
     "jest environment"
   ],
   "dependencies": {
     "cwd": "0.10.0",
     "debug": "^4.1.1",
-    "dynamodb-local": "0.0.30"
+    "dynalite": "^3.0.0"
   },
   "peerDependencies": {
-    "aws-sdk": "2.x.x"
+    "aws-sdk": "2.x.x",
+    "jest-environment-node": ">=20"
   },
   "devDependencies": {
     "@shelf/eslint-config": "0.7.0",
-    "aws-sdk": "2.488.0",
+    "@types/cwd": "^0.10.0",
+    "@types/jest": "^24.0.18",
+    "@typescript-eslint/parser": "^2.3.3",
+    "aws-sdk": "2.548.0",
     "eslint": "6.5.1",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2",
     "husky": "3.0.8",
     "jest": "24.9.0",
     "lint-staged": "9.4.2",
-    "prettier": "1.18.2"
-  },
-  "jest": {
-    "preset": "./jest-preset.js"
+    "prettier": "1.18.2",
+    "typescript": "^3.6.4"
   },
   "husky": {
     "hooks": {
@@ -57,7 +62,7 @@
     }
   },
   "lint-staged": {
-    "*.js": [
+    "*.{js,ts}": [
       "eslint --fix",
       "git add"
     ],
