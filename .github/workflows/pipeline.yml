@@ -72,3 +72,4 @@ jobs:
           yarn publish --non-interactive
         env:
           CI: true
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
