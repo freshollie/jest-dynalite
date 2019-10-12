@@ -1,7 +1,7 @@
 # jest-dynalite
 
-![Pipeline status](https://github.com/freshollie/jest-dynalite/workflows/Pipeline/badge.svg)
-![Npm version](https://img.shields.io/npm/v/jest-dynalite)
+[![Pipeline status](https://github.com/freshollie/jest-dynalite/workflows/Pipeline/badge.svg)](https://github.com/freshollie/jest-dynalite/actions)
+[![Npm version](https://img.shields.io/npm/v/jest-dynalite)](https://www.npmjs.com/package/jest-dynalite)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
 > Enchanced `@shelf/jest-dynamodb`
@@ -27,7 +27,7 @@ jest.config.js
 ```javascript
 module.exports = {
   ...
-  preset: "./jest-preset.js"
+  preset: "jest-dynalite"
 }
 ```
 
