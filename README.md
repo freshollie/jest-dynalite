@@ -4,23 +4,64 @@
 [![Npm version](https://img.shields.io/npm/v/jest-dynalite)](https://www.npmjs.com/package/jest-dynalite)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
-> Enchanced `@shelf/jest-dynamodb`
+> Enchaned unit testing, with a mock DynamoDB instance
 
-`jest-dynalite` is a fork of `@shelf/jest-dynamodb` used to allow unit tests
-to perform dynamodb queries locally.
+`jest-dynalite` is a fork of `@shelf/jest-dynamodb`, and allows unit tests to execute real
+queries against a local DynamoDB instance.
 
 ## Behaviour
 
 `jest-dynalite` runs a [dynalite](https://github.com/mhart/dynalite) instance per test runner, which means
-test runners do not interfear with eachother.
+test runners do not interfear.
 
-`jest-dynalite` clears tables between tests, so every test has a clean environment to run in.
+`jest-dynalite` clears tables between tests by default.
 
-## Usage
+## Installation
 
 ```
 yarn add jest-dynalite -D
 ```
+
+## Config
+
+In your package root, create a `jest-dynalite-config.json` with the tables schemas,
+and an optional `basePort` to run dynalite on:
+
+```json
+{
+  "tables": [
+    {
+      "TableName": "table",
+      "KeySchema": [{ "AttributeName": "id", "KeyType": "HASH" }],
+      "AttributeDefinitions": [{ "AttributeName": "id", "AttributeType": "S" }],
+      "ProvisionedThroughput": {
+        "ReadCapacityUnits": 1,
+        "WriteCapacityUnits": 1
+      }
+    }
+  ],
+  "basePort": 8000 // optional
+}
+```
+
+## Update your sourcecode
+
+```javascript
+const client = new DocumentClient({
+  ...yourConfig,
+  ...(process.env.MOCK_DYNAMODB_ENDPOINT && {
+    endpoint: process.env.MOCK_DYNAMODB_ENDPOINT,
+    sslEnabled: false,
+    region: "local"
+  })
+});
+```
+
+`process.env.MOCK_DYNAMODB_ENDPOINT` is unqiue to each test runner.
+
+## Jest config
+
+### Simple usage (preset)
 
 jest.config.js
 
@@ -31,34 +72,80 @@ module.exports = {
 }
 ```
 
-Create a `jest-dynalite-config.json` in your package root, which contain the tables
-which should exist for your tests.
+The simple preset config will use the config and clear tables
+between tests by default.
 
-```json
-{
-  "tables": [
-    {
-      ...
-    }
-  ],
-  "basePort": 8000
+This the recommended usage, unless you have custom `setupFilesAfterEnv` or `testEnvironment` set.
+
+### More advanced
+
+setup.js
+
+```javascript
+require("jest-dynalite/setupTables");
+
+// Optional (but recommended)
+require("jest-dynalite/clearAfterEach");
+```
+
+jest.config.js
+
+```javascript
+module.exports = {
+  ...
+  testEnvironment: "jest-dynalite/environment",
+  setupFilesAfterEnv: ["./setup.js"]
 }
 ```
 
-Usage
+This setup should be used if you want to override the default config of `clearAfterEach`.
+
+### Most advanced
+
+Specify the config dir
+
+setupBeforeEnv.js
 
 ```javascript
-const ddb = new DocumentClient({
-  ...yourConfig,
-  ...(process.env.MOCK_DYNAMODB_ENDPOINT && {
-    endpoint: process.env.MOCK_DYNAMODB_ENDPOINT,
-    sslEnabled: false,
-    region: "local"
-  })
-});
+const { setup } = require("jest-dynalite");
+
+setup(__dirname);
 ```
 
-`process.env.MOCK_DYNAMODB_ENDPOINT` is unqiue to test runner
+setupAfterEnv.js
+
+```javascript
+const {
+  startDb,
+  stopDb,
+  createTables,
+  deleteTables
+} = require("jest-dynalite");
+
+beforeAll(startDb);
+
+// Create tables but don't delete them after tests
+// beforeAll(createTables);
+
+// Optional
+beforeEach(createTables);
+afterEach(deleteTables);
+
+afterAll(stopDb);
+```
+
+jest.config.js
+
+```javascript
+module.exports = {
+  ...
+  setupFiles: ["./setupBeforeEnv.js"],
+  setupFilesAfterEnv: ["./setupAfterEnv.js"]
+}
+```
+
+This is by far the most complicated setup, but provides the ability to specifiy
+and environment other than `jest-dynalite`, and allows you to specify a config directory.
 
 ## License
 

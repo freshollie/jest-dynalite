@@ -1,38 +1,24 @@
 import NodeEnvironment from "jest-environment-node";
-import dynalite from "dynalite";
-import config from "./config";
-
-const port =
-  (config.basePort || 8000) +
-  parseInt(process.env.JEST_WORKER_ID as string, 10);
-
-process.env.MOCK_DYNAMODB_PORT = port.toString();
-process.env.MOCK_DYNAMODB_ENDPOINT = `localhost:${port}`;
-
-// aws-sdk requires access and secret key to be able to call DDB
-process.env.AWS_ACCESS_KEY_ID = "access-key";
-process.env.AWS_SECRET_ACCESS_KEY = "secret-key";
+import { Config } from "@jest/types";
+import setup from "./setup";
+import { start, stop } from "./db";
 
 export default class DynaliteEnvironment extends NodeEnvironment {
-  private dynaliteInstance = dynalite({
-    createTableMs: 0,
-    deleteTableMs: 0,
-    updateTableMs: 0
-  });
+  constructor(projectConfig: Config.ProjectConfig) {
+    // The config directory is based on the root directory
+    // of the project config
+    setup(projectConfig.rootDir);
+
+    super(projectConfig);
+  }
 
   public async setup(): Promise<void> {
     await super.setup();
-
-    await new Promise(resolve =>
-      this.dynaliteInstance.listen(
-        parseInt(process.env.MOCK_DYNAMODB_PORT as string, 10),
-        resolve
-      )
-    );
+    await start();
   }
 
   async teardown(): Promise<void> {
-    await new Promise(resolve => this.dynaliteInstance.close(resolve));
+    await stop();
     await super.teardown();
   }
 }

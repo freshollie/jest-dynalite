@@ -16,6 +16,9 @@
     "coverage": "jest --coverage",
     "lint": "eslint --ext js,jsx,ts,tsx .",
     "test": "jest",
+    "test:environment": "yarn pretest && jest -c jest-environment.config.js",
+    "test:advanced": "yarn pretest && jest -c jest-advanced.config.js",
+    "test:all": "yarn pretest && jest && jest -c jest-environment.config.js && jest -c jest-advanced.config.js",
     "build": "rm -rf dist && tsc",
     "pretest": "yarn build",
     "prepare": "yarn build"
@@ -33,13 +36,13 @@
     "jest environment"
   ],
   "dependencies": {
-    "cwd": "0.10.0",
+    "@jest/types": "^24.9.0",
     "debug": "^4.1.1",
-    "dynalite": "^3.0.0"
+    "dynalite": "^3.0.0",
+    "jest-environment-node": "^24.9.0"
   },
   "peerDependencies": {
-    "aws-sdk": "2.x.x",
-    "jest-environment-node": ">=20"
+    "aws-sdk": "2.x.x"
   },
   "devDependencies": {
     "@shelf/eslint-config": "0.7.0",
