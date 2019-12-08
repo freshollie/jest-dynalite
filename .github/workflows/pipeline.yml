@@ -1,6 +1,6 @@
 name: Pipeline
 
-on: [push]
+on: [push, pull-request]
 
 jobs:
   lint:
@@ -60,6 +60,8 @@ jobs:
     runs-on: ubuntu-latest
 
     needs: test
+
+    if: startsWith(github.ref, 'v') && contains(github.ref, '.')
     steps:
       - uses: actions/checkout@master
       - name: Use Node.js ${{ matrix.node-version }}
