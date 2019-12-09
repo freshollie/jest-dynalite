@@ -21,7 +21,7 @@ export const start = (): Promise<void> =>
   );
 
 export const stop = (): Promise<void> =>
-  new Promise(resolve => dynaliteInstance.close(resolve));
+  new Promise(resolve => dynaliteInstance.close(() => resolve()));
 
 export const deleteTables = async (): Promise<void> => {
   const dynamoDB = dbClient();

@@ -45,23 +45,29 @@
     "aws-sdk": "2.x.x"
   },
   "devDependencies": {
-    "@shelf/eslint-config": "0.7.0",
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
     "@types/cwd": "^0.10.0",
     "@types/jest": "^24.0.18",
+    "@typescript-eslint/eslint-plugin": "^2.10.0",
     "@typescript-eslint/parser": "^2.3.3",
     "aws-sdk": "2.548.0",
+    "commitlint": "^8.2.0",
     "eslint": "6.5.1",
     "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-config-prettier": "^6.7.0",
     "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-prettier": "^3.1.1",
     "husky": "3.0.8",
     "jest": "24.9.0",
     "lint-staged": "9.4.2",
-    "prettier": "1.18.2",
+    "prettier": "^1.19.1",
     "typescript": "^3.6.4"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged"
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
   "lint-staged": {
