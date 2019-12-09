@@ -12,7 +12,7 @@ queries against a local DynamoDB instance.
 ## Behaviour
 
 `jest-dynalite` runs a [dynalite](https://github.com/mhart/dynalite) instance per test runner, which means
-test runners do not interfear.
+test runners do not interfere.
 
 `jest-dynalite` clears tables between tests by default.
 
@@ -40,7 +40,7 @@ and an optional `basePort` to run dynalite on:
       }
     }
   ],
-  "basePort": 8000 // optional
+  "basePort": 8000
 }
 ```
 
@@ -82,10 +82,10 @@ This the recommended usage, unless you have custom `setupFilesAfterEnv` or `test
 setup.js
 
 ```javascript
-require("jest-dynalite/setupTables");
+import "jest-dynalite/setupTables";
 
 // Optional (but recommended)
-require("jest-dynalite/clearAfterEach");
+import "jest-dynalite/clearAfterEach";
 ```
 
 jest.config.js
@@ -107,27 +107,23 @@ Specify the config dir
 setupBeforeEnv.js
 
 ```javascript
-const { setup } = require("jest-dynalite");
+import { setup } from "jest-dynalite";
 
+// You must give it a config directory
 setup(__dirname);
 ```
 
 setupAfterEnv.js
 
 ```javascript
-const {
-  startDb,
-  stopDb,
-  createTables,
-  deleteTables
-} = require("jest-dynalite");
+import { startDb, stopDb, createTables, deleteTables } from "jest-dynalite";
 
 beforeAll(startDb);
 
 // Create tables but don't delete them after tests
-// beforeAll(createTables);
+beforeAll(createTables);
 
-// Optional
+// or
 beforeEach(createTables);
 afterEach(deleteTables);
 
@@ -145,7 +141,7 @@ module.exports = {
 ```
 
 This is by far the most complicated setup, but provides the ability to specifiy
-and environment other than `jest-dynalite`, and allows you to specify a config directory.
+an environment other than `jest-dynalite`, and also allows you to specify a config directory.
 
 ## License
 

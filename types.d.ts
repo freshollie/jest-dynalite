@@ -11,7 +11,7 @@ declare module "dynalite" {
   }
 
   declare class DynaliteServer extends Server {
-    public close(cb?: (err: any) => void): void;
+    public close(cb?: (err?: Error) => void): void;
   }
 
   declare function createDynalite(options: DynaliteOptions): DynaliteServer;
