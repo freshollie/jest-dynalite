@@ -37,7 +37,6 @@
   ],
   "dependencies": {
     "@jest/types": "^24.9.0",
-    "debug": "^4.1.1",
     "dynalite": "^3.0.0",
     "jest-environment-node": "^24.9.0"
   },
