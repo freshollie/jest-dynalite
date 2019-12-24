@@ -14,7 +14,7 @@ jobs:
           node-version: "10.x"
       - name: Lint
         run: |
-          yarn
+          yarn --frozen-lockfile
           yarn lint
         env:
           CI: true
@@ -29,7 +29,7 @@ jobs:
           node-version: "10.x"
       - name: Build
         run: |
-          yarn
+          yarn --frozen-lockfile
           yarn build
         env:
           CI: true
@@ -51,7 +51,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: ${{ matrix.test-type }}
         run: |
-          yarn
+          yarn --frozen-lockfile
           yarn ${{ matrix.test-type }}
         env:
           CI: true
@@ -71,7 +71,7 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - name: Publish
         run: |
-          yarn
+          yarn --frozen-lockfile
           yarn publish --non-interactive
         env:
           CI: true
