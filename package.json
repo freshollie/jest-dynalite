@@ -4,6 +4,8 @@
   "description": "Run your tests using Jest & Dynalite",
   "license": "MIT",
   "repository": "https://github.com/freshollie/jest-dynalite",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "author": {
     "name": "Oliver Bell",
     "email": "freshollie@gmail.com",
