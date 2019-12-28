@@ -1,6 +1,6 @@
 import AWS from "aws-sdk";
 import dynalite from "dynalite";
-import { getTables } from "./config";
+import { getTables, getDynalitePort } from "./config";
 
 const dynaliteInstance = dynalite({
   createTableMs: 0,
@@ -10,7 +10,7 @@ const dynaliteInstance = dynalite({
 
 const dbClient = (): AWS.DynamoDB =>
   new AWS.DynamoDB({
-    endpoint: process.env.MOCK_DYNAMODB_ENDPOINT,
+    endpoint: `localhost:${getDynalitePort()}`,
     sslEnabled: false,
     region: "local"
   });

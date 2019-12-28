@@ -14,3 +14,7 @@ it("should not share data between test suites", async () => {
 
   expect(Item).not.toBeDefined();
 });
+
+it("should allow the environment variable to be deleted", () => {
+  delete process.env.MOCK_DYNAMODB_ENDPOINT;
+});
