@@ -33,7 +33,9 @@ export const deleteTables = async (): Promise<void> => {
   );
   await Promise.all(
     tables.map(table =>
-      dynamoDB.waitFor("tableNotExists", { TableName: table.TableName })
+      dynamoDB
+        .waitFor("tableNotExists", { TableName: table.TableName })
+        .promise()
     )
   );
 };
@@ -45,7 +47,7 @@ export const createTables = async (): Promise<void> => {
   await Promise.all(tables.map(table => dynamoDB.createTable(table).promise()));
   await Promise.all(
     tables.map(table =>
-      dynamoDB.waitFor("tableExists", { TableName: table.TableName })
+      dynamoDB.waitFor("tableExists", { TableName: table.TableName }).promise()
     )
   );
 };

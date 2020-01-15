@@ -2,14 +2,15 @@ module.exports = {
   plugins: ["@typescript-eslint", "prettier", "import"],
   extends: [
     "airbnb-base",
-    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "prettier/@typescript-eslint",
     "plugin:prettier/recommended",
     "prettier/react"
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
-    warnOnUnsupportedTypeScriptVersion: false
+    warnOnUnsupportedTypeScriptVersion: false,
+    project: "tsconfig.eslint.json"
   },
   settings: {
     "import/resolver": {

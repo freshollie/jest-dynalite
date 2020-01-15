@@ -1,10 +1,6 @@
 {
-  "eslint.validate": [
-    { "language": "javascript", "autoFix": true },
-    { "language": "javascriptreact", "autoFix": true },
-    { "language": "typescript", "autoFix": true },
-    { "language": "typescriptreact", "autoFix": true }
-  ],
-  "eslint.autoFixOnSave": true,
-  "jira-plugin.workingProject": ""
+  "eslint.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  }
 }
