@@ -61,7 +61,6 @@ jobs:
 
     needs: test
 
-    if: startsWith(github.ref, 'v') == true
     steps:
       - uses: actions/checkout@master
       - name: Use Node.js ${{ matrix.node-version }}
