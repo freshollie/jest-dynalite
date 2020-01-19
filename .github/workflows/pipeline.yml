@@ -61,7 +61,7 @@ jobs:
 
     needs: test
 
-    if: startsWith(github.ref, 'v') && contains(github.ref, '.')
+    if: startsWith(github.ref, 'v')
     steps:
       - uses: actions/checkout@master
       - name: Use Node.js ${{ matrix.node-version }}
