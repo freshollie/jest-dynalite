@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 10
         uses: actions/setup-node@v1
         with:
           node-version: "10.x"
@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 10
         uses: actions/setup-node@v1
         with:
           node-version: "10.x"
@@ -45,7 +45,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 10
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
@@ -61,10 +61,10 @@ jobs:
 
     needs: test
 
-    if: startsWith(github.ref, 'v') && contains(github.ref, '.')
+    if: startsWith(github.ref, 'refs/tags/v') && contains(github.ref, '.')
     steps:
       - uses: actions/checkout@master
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 10
         uses: actions/setup-node@v1
         with:
           node-version: "10.x"

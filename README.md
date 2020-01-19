@@ -6,15 +6,24 @@
 
 > Enchaned unit testing, with a mock DynamoDB instance
 
-`jest-dynalite` is a fork of `@shelf/jest-dynamodb`, and allows unit tests to execute real
+`jest-dynalite` is a fork of [@shelf/jest-dynamodb](https://github.com/shelfio/jest-dynamodb), and allows unit tests to execute real
 queries against a local DynamoDB instance.
 
-## Behaviour
+## Why should I use this?
 
-`jest-dynalite` runs a [dynalite](https://github.com/mhart/dynalite) instance per test runner, which means
-test runners do not interfere.
+Using this library makes writing quiries with dynamodb very easy, and your tests can really
+check if your data is manipulated in the way you expect it to be. This in turn makes your tests much
+more robust.
 
-`jest-dynalite` clears tables between tests by default.
+`jest-dynalite` was created in an attempt to address some of the most important missing
+features of `@shelf/jest-dynamodb`
+
+## Features
+
+- Optionally clear tables between tests
+- Isolated tables between test runners
+- Custom directory for config (monorepo)
+- Remove requirement for java
 
 ## Installation
 
@@ -82,10 +91,10 @@ This the recommended usage, unless you have custom `setupFilesAfterEnv` or `test
 setup.js
 
 ```javascript
-import "jest-dynalite/setupTables";
+import "jest-dynalite/dist/setupTables";
 
 // Optional (but recommended)
-import "jest-dynalite/clearAfterEach";
+import "jest-dynalite/dist/clearAfterEach";
 ```
 
 jest.config.js
@@ -93,7 +102,7 @@ jest.config.js
 ```javascript
 module.exports = {
   ...
-  testEnvironment: "jest-dynalite/environment",
+  testEnvironment: "jest-dynalite/dist/environment",
   setupFilesAfterEnv: ["./setup.js"]
 }
 ```
