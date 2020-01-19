@@ -8,7 +8,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 10
         uses: actions/setup-node@v1
         with:
           node-version: "10.x"
@@ -23,7 +23,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
+      - name: Use Node.js 10
         uses: actions/setup-node@v1
         with:
           node-version: "10.x"
@@ -69,9 +69,5 @@ jobs:
         with:
           node-version: "10.x"
           registry-url: "https://registry.npmjs.org"
-      - name: Publish
-        run: |
-          yarn --frozen-lockfile
-        env:
-          CI: true
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Debug Action
+        uses: hmarr/debug-action@v1.0.0
