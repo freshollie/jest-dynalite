@@ -7,23 +7,29 @@
 > Enchaned unit testing, with a mock DynamoDB instance
 
 `jest-dynalite` is a fork of [@shelf/jest-dynamodb](https://github.com/shelfio/jest-dynamodb), and allows unit tests to execute real
-queries against a local DynamoDB instance.
+queries against a local DynamoDB instance. it was created in an attempt to address some of the most important missing
+features of `@shelf/jest-dynamodb`
 
 ## Why should I use this?
 
-Using this library makes writing quiries with dynamodb very easy, and your tests can really
-check if your data is manipulated in the way you expect it to be. This in turn makes your tests much
-more robust.
+Using this `jest-dynalite` makes writing quiries with dynamodb very easy, your tests can really
+check if your data is manipulated in the way you expect it to be. This means that queries and mutations
+can be developed without ever having to deploy or run your application, and significantly speeds up
+writing code which interacts with dynamodb.
 
-`jest-dynalite` was created in an attempt to address some of the most important missing
-features of `@shelf/jest-dynamodb`
+This in turn makes your tests much more robust, because a change to a data structure or
+db query in your application will be reflected by failing tests, instead of using
+releying on mocks to check if calls were made correctly.
+
+This library could almost be seen as an integration test, but the lines are very blurred these days and
+I'd definitely place this within the unit testing boundary because it can easily integrate with unit tests.
 
 ## Features
 
 - Optionally clear tables between tests
 - Isolated tables between test runners
-- Custom directory for config (monorepo)
-- Remove requirement for java
+- Ability to specify config directory
+- No requirement for `java`
 
 ## Installation
 
