@@ -18,8 +18,8 @@ can be developed without ever having to deploy or run your application, and sign
 writing code which interacts with dynamodb.
 
 This in turn makes your tests much more robust, because a change to a data structure or
-db query in your application will be reflected by failing tests, instead of using
-releying on mocks to check if calls were made correctly.
+db query in your application will be reflected by failing tests, instead of using mocks to check
+if calls were made correctly.
 
 This library could almost be seen as an integration test, but the lines are very blurred these days and
 I'd definitely place this within the unit testing boundary because it can easily integrate with unit tests.
@@ -36,6 +36,13 @@ I'd definitely place this within the unit testing boundary because it can easily
 ```
 yarn add jest-dynalite -D
 ```
+
+## Timeouts
+
+Because jest has a default timeout of 5000ms per test, `jest-dynalite` can sometimes cause failures due to the timeout
+being exceeded. This can happen when there are many tests or lots of tables to create between tests.
+If this happens, try increasing your test timeouts `jest.setTimeout(10000)`. Another option is to selectively
+run the database only for suites which use it. Please see [advanced config](###Monorepo/Advanced-setup)
 
 ## Config
 
@@ -92,7 +99,61 @@ between tests by default.
 
 This the recommended usage, unless you have custom `setupFilesAfterEnv` or `testEnvironment` set.
 
-### More advanced
+### Monorepo/Advanced setup
+
+When you use `jest-dynalite` in a monorepo, you must tell it where
+the config directory is, as it's not possible to detect.
+
+setupBeforeEnv.js
+
+```javascript
+import { setup } from "jest-dynalite";
+
+// You must give it a config directory
+setup(__dirname);
+```
+
+In every test suite you are using `dynamodb` apply `import "jest-dynalite/withDb"` to the top of
+the test suites to run the db for your that suite.
+
+If you want the tables to exist for all your tests, create a
+`setupAfterEnv.js` file with the content:
+
+```javascript
+import "jest-dynalite/withDb";
+```
+
+You then must add the setup files to your jest config
+
+jest.config.js
+
+```javascript
+module.exports = {
+  ...
+  setupFiles: ["./setupBeforeEnv.js"],
+  setupFilesAfterEnv: ["./setupAfterEnv.js"]
+}
+```
+
+If you want to use a more advanced setup, you can start
+the db yourself at any point.
+
+```javascript
+import { startDb, stopDb, createTables, deleteTables } from "jest-dynalite";
+
+beforeAll(startDb);
+
+// Create tables but don't delete them after tests
+beforeAll(createTables);
+
+// or
+beforeEach(createTables);
+afterEach(deleteTables);
+
+afterAll(stopDb);
+```
+
+### Other options
 
 setup.js
 
@@ -114,49 +175,6 @@ module.exports = {
 ```
 
 This setup should be used if you want to override the default config of `clearAfterEach`.
-
-### Most advanced
-
-Specify the config dir
-
-setupBeforeEnv.js
-
-```javascript
-import { setup } from "jest-dynalite";
-
-// You must give it a config directory
-setup(__dirname);
-```
-
-setupAfterEnv.js
-
-```javascript
-import { startDb, stopDb, createTables, deleteTables } from "jest-dynalite";
-
-beforeAll(startDb);
-
-// Create tables but don't delete them after tests
-beforeAll(createTables);
-
-// or
-beforeEach(createTables);
-afterEach(deleteTables);
-
-afterAll(stopDb);
-```
-
-jest.config.js
-
-```javascript
-module.exports = {
-  ...
-  setupFiles: ["./setupBeforeEnv.js"],
-  setupFilesAfterEnv: ["./setupAfterEnv.js"]
-}
-```
-
-This is by far the most complicated setup, but provides the ability to specifiy
-an environment other than `jest-dynalite`, and also allows you to specify a config directory.
 
 ## License
 
