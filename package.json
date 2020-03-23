@@ -27,6 +27,7 @@
   },
   "files": [
     "dist",
+    "withDb.js",
     "jest-preset.js"
   ],
   "keywords": [
