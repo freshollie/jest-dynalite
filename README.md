@@ -31,16 +31,6 @@ I'd definitely place this within the unit testing boundary because it can easily
 - Ability to specify config directory
 - No requirement for `java`
 
-## Gotchas
-
-When `jest-dynalite` fails, it's not entirely obvious what's going on. Here are some things which cause problems.
-
-### Fake timers
-
-- Ensure `jest.useFakeTimers` is only called for the tests where it needs to be used, not for the whole file. If you use fake timers,
-  ensure that `jest.useRealTimers` is called after every test (`afterEach`). If this doesn't happen, jest-dynalite will timeout trying to
-  teardown tables.
-
 ## Installation
 
 ```

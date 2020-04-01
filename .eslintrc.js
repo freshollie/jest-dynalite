@@ -12,6 +12,10 @@ module.exports = {
     warnOnUnsupportedTypeScriptVersion: false,
     project: "tsconfig.eslint.json"
   },
+  env: {
+    jest: true,
+    browser: true
+  },
   settings: {
     "import/resolver": {
       node: {
@@ -37,8 +41,5 @@ module.exports = {
         "@typescript-eslint/no-var-requires": "off"
       }
     }
-  ],
-  env: {
-    jest: true
-  }
+  ]
 };

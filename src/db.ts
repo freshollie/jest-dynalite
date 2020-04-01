@@ -2,6 +2,44 @@ import AWS, { AWSError } from "aws-sdk";
 import dynalite from "dynalite";
 import { getTables, getDynalitePort } from "./config";
 
+const globalObj = typeof window === "undefined" ? global : window;
+
+const isPromise = <R>(p: unknown | Promise<R>): p is Promise<R> =>
+  p && Object.prototype.toString.call(p) === "[object Promise]";
+
+// stolen from https://github.com/testing-library/dom-testing-library/blob/master/src/helpers.js
+const runWithRealTimers = <T, R>(
+  callback: () => T | Promise<R>
+): T | Promise<R> => {
+  const usingJestFakeTimers =
+    globalObj.setTimeout &&
+    // eslint-disable-next-line no-underscore-dangle
+    ((globalObj.setTimeout as unknown) as any)._isMockFunction &&
+    typeof jest !== "undefined";
+
+  if (usingJestFakeTimers) {
+    jest.useRealTimers();
+  }
+
+  const callbackReturnValue = callback();
+
+  if (isPromise(callbackReturnValue)) {
+    return callbackReturnValue.then(value => {
+      if (usingJestFakeTimers) {
+        jest.useFakeTimers();
+      }
+
+      return value;
+    });
+  }
+
+  if (usingJestFakeTimers) {
+    jest.useFakeTimers();
+  }
+
+  return callbackReturnValue;
+};
+
 const dynaliteInstance = dynalite({
   createTableMs: 0,
   deleteTableMs: 0,
@@ -65,35 +103,44 @@ const waitForDeleted = async (
 };
 
 export const start = (): Promise<void> =>
-  new Promise(resolve =>
-    dynaliteInstance.listen(process.env.MOCK_DYNAMODB_PORT, resolve)
+  runWithRealTimers(
+    () =>
+      new Promise(resolve =>
+        dynaliteInstance.listen(process.env.MOCK_DYNAMODB_PORT, resolve)
+      )
   );
 
 export const stop = (): Promise<void> =>
-  new Promise(resolve => dynaliteInstance.close(() => resolve()));
-
-export const deleteTables = async (): Promise<void> => {
-  const dynamoDB = dbClient();
-  const tables = getTables();
-  await Promise.all(
-    tables.map(table =>
-      dynamoDB
-        .deleteTable({ TableName: table.TableName })
-        .promise()
-        .catch(() => {})
-    )
+  runWithRealTimers(
+    () => new Promise(resolve => dynaliteInstance.close(() => resolve()))
   );
-  await Promise.all(
-    tables.map(table => waitForDeleted(dynamoDB, table.TableName))
-  );
-};
 
-export const createTables = async (): Promise<void> => {
-  const dynamoDB = dbClient();
-  const tables = getTables();
+export const deleteTables = async (): Promise<void> =>
+  runWithRealTimers(async () => {
+    const dynamoDB = dbClient();
+    const tables = getTables();
+    await Promise.all(
+      tables.map(table =>
+        dynamoDB
+          .deleteTable({ TableName: table.TableName })
+          .promise()
+          .catch(() => {})
+      )
+    );
+    await Promise.all(
+      tables.map(table => waitForDeleted(dynamoDB, table.TableName))
+    );
+  });
 
-  await Promise.all(tables.map(table => dynamoDB.createTable(table).promise()));
-  await Promise.all(
-    tables.map(table => waitForTable(dynamoDB, table.TableName))
-  );
-};
+export const createTables = async (): Promise<void> =>
+  runWithRealTimers(async () => {
+    const dynamoDB = dbClient();
+    const tables = getTables();
+
+    await Promise.all(
+      tables.map(table => dynamoDB.createTable(table).promise())
+    );
+    await Promise.all(
+      tables.map(table => waitForTable(dynamoDB, table.TableName))
+    );
+  });
