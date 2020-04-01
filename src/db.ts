@@ -103,17 +103,12 @@ const waitForDeleted = async (
 };
 
 export const start = (): Promise<void> =>
-  runWithRealTimers(
-    () =>
-      new Promise(resolve =>
-        dynaliteInstance.listen(process.env.MOCK_DYNAMODB_PORT, resolve)
-      )
+  new Promise(resolve =>
+    dynaliteInstance.listen(process.env.MOCK_DYNAMODB_PORT, resolve)
   );
 
 export const stop = (): Promise<void> =>
-  runWithRealTimers(
-    () => new Promise(resolve => dynaliteInstance.close(() => resolve()))
-  );
+  new Promise(resolve => dynaliteInstance.close(() => resolve()));
 
 export const deleteTables = async (): Promise<void> =>
   runWithRealTimers(async () => {
