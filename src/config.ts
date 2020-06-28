@@ -8,12 +8,10 @@ interface Config {
 }
 
 const loadConfig = (configFile: string): Config =>
-  fs.existsSync(configFile)
-    ? JSON.parse(fs.readFileSync(configFile).toString())
-    : {};
+  fs.existsSync(configFile) ? require(configFile) : {}; // eslint-disable-line import/no-dynamic-require, global-require
 
 const configFile = (configDir: string): string =>
-  resolve(configDir, "jest-dynalite-config.json");
+  resolve(configDir, "jest-dynalite-config.js");
 
 let config = loadConfig(configFile(process.cwd()));
 
