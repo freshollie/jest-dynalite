@@ -31,6 +31,10 @@ I'd definitely place this within the unit testing boundary because it can easily
 - Ability to specify config directory
 - No `java` requirement
 
+## **BREAKING CHANGES**
+
+From `v2.0.0` `jest-dynalite` now uses a JavaScript file for table configuration. This change makes it possible to set the dynalite config programatically (enabling things such as reading the parameters from a cloudformation template) while also improving compatibility with jest-dynamodb. Thanks to [@corollari](https://github.com/corollari) for this change.
+
 ## Installation
 
 ```
