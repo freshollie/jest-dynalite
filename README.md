@@ -6,13 +6,13 @@
 
 > Enchaned unit testing, with a mock DynamoDB instance
 
-`jest-dynalite` is a fork of [@shelf/jest-dynamodb](https://github.com/shelfio/jest-dynamodb), and allows unit tests to execute real
-queries against a local DynamoDB instance. it was created in an attempt to address some of the most important missing
-features of `@shelf/jest-dynamodb`
+`jest-dynalite` is a fork of [@shelf/jest-dynamodb](https://github.com/shelfio/jest-dynamodb) that allows unit tests to execute real
+queries against a local DynamoDB instance. It was created in an attempt to address some of the most important missing
+features of `@shelf/jest-dynamodb`, such as the fact that it uses a single shared database, which makes it hard to keep tests independent while also potentially causing race conditions because of jest's parallel execution of tests (see [this issue](https://github.com/shelfio/jest-dynamodb/issues/55) for more information).
 
 ## Why should I use this?
 
-Using this `jest-dynalite` makes writing quiries with dynamodb very easy, your tests can really
+Using this `jest-dynalite` makes writing queries with dynamodb very easy, your tests can really
 check if your data is manipulated in the way you expect it to be. This means that queries and mutations
 can be developed without ever having to deploy or run your application, and significantly speeds up
 writing code which interacts with dynamodb.
@@ -29,7 +29,7 @@ I'd definitely place this within the unit testing boundary because it can easily
 - Optionally clear tables between tests
 - Isolated tables between test runners
 - Ability to specify config directory
-- No requirement for `java`
+- No `java` requirement
 
 ## Installation
 
@@ -42,7 +42,7 @@ yarn add jest-dynalite -D
 Because jest has a default timeout of 5000ms per test, `jest-dynalite` can sometimes cause failures due to the timeout
 being exceeded. This can happen when there are many tests or lots of tables to create between tests.
 If this happens, try increasing your test timeouts `jest.setTimeout(10000)`. Another option is to selectively
-run the database only for suites which use it. Please see [advanced config](###Monorepo/Advanced-setup)
+run the database only for suites which use it. Please see [advanced config](###Monorepo/Advanced-setup).
 
 ## Config
 
@@ -102,7 +102,7 @@ This the recommended usage, unless you have custom `setupFilesAfterEnv` or `test
 ### Monorepo/Advanced setup
 
 When you use `jest-dynalite` in a monorepo, you must tell it where
-the config directory is, as it's not possible to detect.
+the config directory is, as that can't be detected.
 
 setupBeforeEnv.js
 
@@ -113,8 +113,8 @@ import { setup } from "jest-dynalite";
 setup(__dirname);
 ```
 
-In every test suite you are using `dynamodb` apply `import "jest-dynalite/withDb"` to the top of
-the test suites to run the db for your that suite.
+In every test suite where you are using `dynamodb`, apply `import "jest-dynalite/withDb"` to the top of
+the test suites to run the db for that suite.
 
 If you want the tables to exist for all your tests, create a
 `setupAfterEnv.js` file with the content:
