@@ -46,24 +46,24 @@ run the database only for suites which use it. Please see [advanced config](###M
 
 ## Config
 
-In your package root, create a `jest-dynalite-config.json` with the tables schemas,
+In your package root, create a `jest-dynalite-config.js` with the tables schemas,
 and an optional `basePort` to run dynalite on:
 
-```json
-{
-  "tables": [
+```js
+module.exports = {
+  tables: [
     {
-      "TableName": "table",
-      "KeySchema": [{ "AttributeName": "id", "KeyType": "HASH" }],
-      "AttributeDefinitions": [{ "AttributeName": "id", "AttributeType": "S" }],
-      "ProvisionedThroughput": {
-        "ReadCapacityUnits": 1,
-        "WriteCapacityUnits": 1
+      TableName: "table",
+      KeySchema: [{ AttributeName: "id", KeyType: "HASH" }],
+      AttributeDefinitions: [{ AttributeName: "id", AttributeType: "S" }],
+      ProvisionedThroughput: {
+        ReadCapacityUnits: 1,
+        WriteCapacityUnits: 1
       }
     }
   ],
-  "basePort": 8000
-}
+  basePort: 8000
+};
 ```
 
 ## Update your sourcecode
