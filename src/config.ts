@@ -7,8 +7,12 @@ interface Config {
   basePort?: number;
 }
 
-const loadConfig = (configFile: string): Config =>
-  fs.existsSync(configFile) ? require(configFile) : {}; // eslint-disable-line import/no-dynamic-require, global-require
+const loadConfig = (configFile: string): Config => {
+  if (fs.existsSync(configFile)) {
+    return require(configFile); // eslint-disable-line import/no-dynamic-require, global-require
+  }
+  throw new Error("Could not find 'jest-dynalite-config.js' file");
+};
 
 const configFile = (configDir: string): string =>
   resolve(configDir, "jest-dynalite-config.js");
