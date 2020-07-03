@@ -1,13 +1,15 @@
 import NodeEnvironment from "jest-environment-node";
 import { Config } from "@jest/types";
-import setup from "./setup";
+import setup, { isSetup } from "./setup";
 import { start, stop } from "./db";
 
 export default class DynaliteEnvironment extends NodeEnvironment {
   constructor(projectConfig: Config.ProjectConfig) {
     // The config directory is based on the root directory
     // of the project config
-    setup(projectConfig.rootDir);
+    if (!isSetup()) {
+      setup(projectConfig.rootDir);
+    }
 
     super(projectConfig);
   }
