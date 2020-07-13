@@ -1,4 +1,8 @@
 module.exports = {
-  setupFiles: ["<rootDir>/setupTests/setupAdvanced.js"],
-  setupFilesAfterEnv: ["<rootDir>/setupTests/setupAdvancedEnv.js"]
+  setupFiles: ["<rootDir>/.jest/setupAdvanced.js"],
+  setupFilesAfterEnv: ["<rootDir>/.jest/setupAdvancedEnv.js"],
+  displayName: {
+    name: "advanced-config",
+    color: "green"
+  }
 };

@@ -1,11 +1,6 @@
 import { setConfigDir, getDynalitePort } from "./config";
 
-let called = false;
-
-export const isSetup = (): boolean => called;
-
 export default (withConfigDir: string): void => {
-  called = true;
   setConfigDir(withConfigDir);
 
   const port = getDynalitePort();

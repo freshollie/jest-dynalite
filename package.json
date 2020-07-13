@@ -19,9 +19,7 @@
     "lint": "eslint --ext js,jsx,ts,tsx .",
     "test": "jest",
     "test:environment": "yarn pretest && jest -c jest-environment.config.js",
-    "test:advanced-environment": "yarn pretest && jest -c jest-advanced-with-environment.config.js",
     "test:advanced": "yarn pretest && jest -c jest-advanced.config.js",
-    "test:all": "yarn pretest && jest && jest -c jest-environment.config.js && jest -c jest-advanced.config.js && jest -c jest-advanced-with-environment.config.js",
     "build": "rm -rf dist && tsc",
     "pretest": "yarn build",
     "prepare": "yarn build"

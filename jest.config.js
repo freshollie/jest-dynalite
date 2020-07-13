@@ -1,3 +1,3 @@
 module.exports = {
-  preset: "./jest-preset.js"
+  projects: ["./jest-*.config.js"]
 };
