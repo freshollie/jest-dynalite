@@ -10,20 +10,16 @@ export default class DynaliteEnvironment extends NodeEnvironment {
 
     const { rootDir } = projectConfig;
     try {
-      setup(projectConfig.rootDir);
+      setup(rootDir);
     } catch (e) {
-      // eslint-disable-next-line no-console
       throw new Error(`
 jest-dynalite could not find a config file in the jest <rootDir> (${rootDir}).
 
 If you didn't intend to be using this directory for the config, please specify a custom
-directory: https://github.com/freshollie/jest-dynalite/#monorepoadvanced-setup
+directory: https://github.com/freshollie/jest-dynalite/#advanced-setup
 
 If you are already using a custom config directory, you should apply 'import "jest-dynalite/withDb"'
-to your "setupFilesAfterEnv" instead of using the jest-dynalite preset or environment.
-
-Please see https://github.com/freshollie/jest-dynalite/issues/6#issuecomment-654167172 for
-more info.
+to your "setupFilesAfterEnv" instead of using the preset.
       `);
     }
 
