@@ -103,7 +103,7 @@ module.exports = {
 The simple preset config will use the config and clear tables
 between tests.
 
-This the recommended usage, unless you have a custom `testEnvironment` set.
+**Important**: Only use this option if you don't have a custom `testEnvironment` set in your `jest.config.js` file.
 
 ### Advanced setup
 
