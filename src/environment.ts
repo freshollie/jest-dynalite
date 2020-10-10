@@ -13,13 +13,15 @@ export default class DynaliteEnvironment extends NodeEnvironment {
       setup(rootDir);
     } catch (e) {
       throw new Error(`
-jest-dynalite could not find a config file in the jest <rootDir> (${rootDir}).
+jest-dynalite could not find "jest-dynalite-config.js" in the jest <rootDir> (${rootDir}).
 
 If you didn't intend to be using this directory for the config, please specify a custom
 directory: https://github.com/freshollie/jest-dynalite/#advanced-setup
 
 If you are already using a custom config directory, you should apply 'import "jest-dynalite/withDb"'
 to your "setupFilesAfterEnv" instead of using the preset.
+
+For more information, please see https://github.com/freshollie/jest-dynalite/#breaking-changes.
       `);
     }
 
