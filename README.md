@@ -105,6 +105,8 @@ between tests.
 
 **Important**: Only use this option if you don't have a custom `testEnvironment` set in your `jest.config.js` file.
 
+[Please see example](example/)
+
 ### Advanced setup
 
 If you are using your own `testEnvironment` in your Jest configuration, then you must setup

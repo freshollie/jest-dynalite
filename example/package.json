@@ -1,0 +1,14 @@
+{
+    "name": "jest-dynalite-example",
+    "private": true,
+    "scripts": {
+        "test": "jest"
+    },
+    "devDependencies": {
+        "jest": "^26.5.2",
+        "jest-dynalite": "^3.0.0"
+    },
+    "dependencies": {
+        "aws-sdk": "^2.771.0"
+    }
+}
