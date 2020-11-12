@@ -72,6 +72,23 @@ module.exports = {
 };
 ```
 
+Your tables can also be resolved from an optionally async function:
+
+```js
+module.exports = {
+  // Please note, this function is resolved
+  // once per test file
+  tables: async () => {
+    const myTables = await someFunction();
+    if (myTables.find((table) => ...)) {
+      return someOtherFunction();
+    }
+    return myTables;
+  },
+  basePort: 8000
+};
+```
+
 ## Update your sourcecode
 
 ```javascript

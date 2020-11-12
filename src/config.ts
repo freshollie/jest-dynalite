@@ -1,9 +1,12 @@
 import fs from "fs";
 import { resolve } from "path";
 import { CreateTableInput } from "aws-sdk/clients/dynamodb";
+import { isFunction } from "./utils";
 
 interface Config {
-  tables: CreateTableInput[];
+  tables:
+    | CreateTableInput[]
+    | (() => CreateTableInput[] | Promise<CreateTableInput[]>);
   basePort?: number;
 }
 
@@ -41,4 +44,21 @@ export const getDynalitePort = (): number => {
   );
 };
 
-export const getTables = (): CreateTableInput[] => readConfig().tables ?? [];
+// Cache the tables result from the config function, so that we
+// are not calling it over and over
+let tablesCache: CreateTableInput[] | undefined;
+
+export const getTables = async (): Promise<CreateTableInput[]> => {
+  if (tablesCache) {
+    return tablesCache;
+  }
+
+  const tablesConfig = readConfig().tables;
+  if (isFunction(tablesConfig)) {
+    tablesCache = await tablesConfig();
+  } else {
+    tablesCache = tablesConfig;
+  }
+
+  return tablesCache;
+};
