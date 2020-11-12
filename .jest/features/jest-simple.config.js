@@ -1,5 +1,7 @@
+const base = require("../../jest.base.config");
+
 module.exports = {
-  rootDir: "../../",
+  ...base,
   preset: "./jest-preset.js",
   displayName: {
     name: "preset",

@@ -4,7 +4,7 @@ import { CreateTableInput } from "aws-sdk/clients/dynamodb";
 import { isFunction } from "./utils";
 
 interface Config {
-  tables:
+  tables?:
     | CreateTableInput[]
     | (() => CreateTableInput[] | Promise<CreateTableInput[]>);
   basePort?: number;
@@ -57,7 +57,7 @@ export const getTables = async (): Promise<CreateTableInput[]> => {
   if (isFunction(tablesConfig)) {
     tablesCache = await tablesConfig();
   } else {
-    tablesCache = tablesConfig;
+    tablesCache = tablesConfig ?? [];
   }
 
   return tablesCache;
