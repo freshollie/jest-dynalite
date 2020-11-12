@@ -1,11 +1,9 @@
 import AWS, { AWSError } from "aws-sdk";
 import dynalite from "dynalite";
 import { getTables, getDynalitePort } from "./config";
+import { isPromise } from "./utils";
 
 const globalObj = typeof window === "undefined" ? global : window;
-
-const isPromise = <R>(p: unknown | Promise<R>): p is Promise<R> =>
-  p && Object.prototype.toString.call(p) === "[object Promise]";
 
 // stolen from https://github.com/testing-library/dom-testing-library/blob/master/src/helpers.js
 const runWithRealTimers = <T, R>(
@@ -119,7 +117,7 @@ export const stop = async (): Promise<void> => {
 export const deleteTables = async (): Promise<void> =>
   runWithRealTimers(async () => {
     const dynamoDB = dbClient();
-    const tables = getTables();
+    const tables = await getTables();
     await Promise.all(
       tables.map(table =>
         dynamoDB
@@ -136,7 +134,7 @@ export const deleteTables = async (): Promise<void> =>
 export const createTables = async (): Promise<void> =>
   runWithRealTimers(async () => {
     const dynamoDB = dbClient();
-    const tables = getTables();
+    const tables = await getTables();
 
     await Promise.all(
       tables.map(table => dynamoDB.createTable(table).promise())
