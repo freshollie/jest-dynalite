@@ -14,4 +14,8 @@ describe("keystore", () => {
   it("should handle no value for key", async () => {
     expect(await keystore.getItem("a")).toBeUndefined();
   });
+
+  it("should contain the existing key from example data", async () => {
+    expect(await keystore.getItem("50")).toEqual({ name: "already exists" });
+  });
 });

@@ -3,32 +3,34 @@ import { resolve } from "path";
 import { CreateTableInput } from "aws-sdk/clients/dynamodb";
 import { isFunction } from "./utils";
 
-interface Config {
-  tables?:
-    | CreateTableInput[]
-    | (() => CreateTableInput[] | Promise<CreateTableInput[]>);
+type TableConfig = CreateTableInput & { data?: unknown[] };
+
+type Config = {
+  tables?: TableConfig[] | (() => TableConfig[] | Promise<TableConfig[]>);
   basePort?: number;
-}
+};
+
+const CONFIG_FILE_NAME = "jest-dynalite-config.js";
 
 let configDir: string =
   process.env.JEST_DYNALITE_CONFIG_DIRECTORY || process.cwd();
 
 const readConfig = (): Config => {
-  const configFile = resolve(configDir, "jest-dynalite-config.js");
+  const configFile = resolve(configDir, CONFIG_FILE_NAME);
   if (fs.existsSync(configFile)) {
     return require(configFile); // eslint-disable-line import/no-dynamic-require, global-require
   }
 
   throw new Error(
-    `Could not find 'jest-dynalite-config.js' in ${resolve(configDir)}`
+    `Could not find '${CONFIG_FILE_NAME}' in ${resolve(configDir)}`
   );
 };
 
 export const setConfigDir = (directory: string): void => {
-  const configFile = resolve(directory, "jest-dynalite-config.js");
+  const configFile = resolve(directory, CONFIG_FILE_NAME);
   if (!fs.existsSync(configFile)) {
     throw new Error(
-      `Could not find 'jest-dynalite-config.js' in ${resolve(configDir)}`
+      `Could not find '${CONFIG_FILE_NAME}' in ${resolve(configDir)}`
     );
   }
 
@@ -46,9 +48,9 @@ export const getDynalitePort = (): number => {
 
 // Cache the tables result from the config function, so that we
 // are not calling it over and over
-let tablesCache: CreateTableInput[] | undefined;
+let tablesCache: TableConfig[] | undefined;
 
-export const getTables = async (): Promise<CreateTableInput[]> => {
+export const getTables = async (): Promise<TableConfig[]> => {
   if (tablesCache) {
     return tablesCache;
   }
@@ -58,6 +60,12 @@ export const getTables = async (): Promise<CreateTableInput[]> => {
     tablesCache = await tablesConfig();
   } else {
     tablesCache = tablesConfig ?? [];
+  }
+
+  if (!Array.isArray(tablesCache)) {
+    throw new Error(
+      "jest-dynalite requires that the tables configuration is an array"
+    );
   }
 
   return tablesCache;

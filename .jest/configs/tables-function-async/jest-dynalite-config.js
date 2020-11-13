@@ -1,20 +1,12 @@
+const tables = require("../tables");
+
 const realTimeout = setTimeout;
 const sleep = time => new Promise(resolve => realTimeout(resolve, time));
 
 module.exports = {
   tables: async () => {
     await sleep(300);
-    return [
-      {
-        TableName: "files",
-        KeySchema: [{ AttributeName: "id", KeyType: "HASH" }],
-        AttributeDefinitions: [{ AttributeName: "id", AttributeType: "S" }],
-        ProvisionedThroughput: {
-          ReadCapacityUnits: 1,
-          WriteCapacityUnits: 1
-        }
-      }
-    ];
+    return tables;
   },
   basePort: 8000
 };

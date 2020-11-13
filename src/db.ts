@@ -1,7 +1,12 @@
 import AWS, { AWSError } from "aws-sdk";
 import dynalite from "dynalite";
 import { getTables, getDynalitePort } from "./config";
-import { isPromise } from "./utils";
+import { isPromise, omit } from "./utils";
+
+type Connection = {
+  dynamoDB: AWS.DynamoDB;
+  documentClient: AWS.DynamoDB.DocumentClient;
+};
 
 const globalObj = typeof window === "undefined" ? global : window;
 
@@ -44,12 +49,25 @@ const dynaliteInstance = dynalite({
   updateTableMs: 0
 });
 
-const dbClient = (): AWS.DynamoDB =>
-  new AWS.DynamoDB({
+let connection: Connection | undefined;
+
+const dbConnection = (): Connection => {
+  if (connection) {
+    return connection;
+  }
+  const options = {
     endpoint: `localhost:${getDynalitePort()}`,
     sslEnabled: false,
     region: "local"
-  });
+  };
+
+  connection = {
+    dynamoDB: new AWS.DynamoDB(options),
+    documentClient: new AWS.DynamoDB.DocumentClient(options)
+  };
+
+  return connection;
+};
 
 const sleep = (time: number): Promise<void> =>
   new Promise(resolve => setTimeout(resolve, time));
@@ -116,7 +134,7 @@ export const stop = async (): Promise<void> => {
 
 export const deleteTables = async (): Promise<void> =>
   runWithRealTimers(async () => {
-    const dynamoDB = dbClient();
+    const { dynamoDB } = dbConnection();
     const tables = await getTables();
     await Promise.all(
       tables.map(table =>
@@ -133,13 +151,33 @@ export const deleteTables = async (): Promise<void> =>
 
 export const createTables = async (): Promise<void> =>
   runWithRealTimers(async () => {
-    const dynamoDB = dbClient();
+    const { dynamoDB, documentClient } = dbConnection();
     const tables = await getTables();
 
     await Promise.all(
-      tables.map(table => dynamoDB.createTable(table).promise())
+      tables.map(table => dynamoDB.createTable(omit(table, "data")).promise())
     );
     await Promise.all(
       tables.map(table => waitForTable(dynamoDB, table.TableName))
+    );
+    await Promise.all(
+      tables.map(
+        table =>
+          table.data &&
+          Promise.all(
+            table.data.map(row => {
+              return documentClient
+                .put({ TableName: table.TableName, Item: row as any })
+                .promise()
+                .catch(e => {
+                  throw new Error(
+                    `Could not add ${JSON.stringify(row)} to "${
+                      table.TableName
+                    }": ${e.message}`
+                  );
+                });
+            })
+          )
+      )
     );
   });
