@@ -10,11 +10,11 @@ const ddb = new DocumentClient({
 module.exports = {
   getItem: async byId => {
     const { Item } = await ddb
-      .get({ TableName: "files", Key: { id: byId } })
+      .get({ TableName: "keys", Key: { id: byId } })
       .promise();
 
     return Item && Item.value;
   },
   putItem: (id, value) =>
-    ddb.put({ TableName: "files", Item: { id, value } }).promise()
+    ddb.put({ TableName: "keys", Item: { id, value } }).promise()
 };

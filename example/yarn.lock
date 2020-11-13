@@ -2268,10 +2268,8 @@ jest-docblock@^26.0.0:
   dependencies:
     detect-newline "^3.0.0"
 
-jest-dynalite@^3.0.0:
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/jest-dynalite/-/jest-dynalite-3.0.0.tgz#d562ef3d475239b1a1e9745fb7262baeda08c24c"
-  integrity sha512-x63pCfdPfujYJ+2l739pj3NMlMz5SStvKn5MItcT/GRbwjsyvZe/3OVCNpD0Kbv3aoZn91kQesFDSujMwBT62g==
+"jest-dynalite@file:..":
+  version "3.1.0"
   dependencies:
     "@jest/types" "^24.9.0"
     dynalite "^3.0.0"
