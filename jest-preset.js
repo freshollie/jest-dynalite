@@ -2,8 +2,8 @@ const { resolve } = require("path");
 
 module.exports = {
   setupFilesAfterEnv: [
-    resolve(__dirname, "./dist/setupTables.js"),
-    resolve(__dirname, "./dist/clearAfterEach.js")
+    resolve(__dirname, "./setupTables.js"),
+    resolve(__dirname, "./clearAfterEach.js"),
   ],
-  testEnvironment: resolve(__dirname, "./dist/environment.js")
+  testEnvironment: resolve(__dirname, "./environment.js"),
 };

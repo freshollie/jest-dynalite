@@ -64,11 +64,11 @@ module.exports = {
       AttributeDefinitions: [{ AttributeName: "id", AttributeType: "S" }],
       ProvisionedThroughput: {
         ReadCapacityUnits: 1,
-        WriteCapacityUnits: 1
-      }
-    }
+        WriteCapacityUnits: 1,
+      },
+    },
   ],
-  basePort: 8000
+  basePort: 8000,
 };
 ```
 
@@ -83,17 +83,17 @@ module.exports = {
       AttributeDefinitions: [{ AttributeName: "id", AttributeType: "S" }],
       ProvisionedThroughput: {
         ReadCapacityUnits: 1,
-        WriteCapacityUnits: 1
+        WriteCapacityUnits: 1,
       },
       data: [
         {
           id: "a",
-          someattribute: "hello world"
-        }
-      ]
-    }
+          someattribute: "hello world",
+        },
+      ],
+    },
   ],
-  basePort: 8000
+  basePort: 8000,
 };
 ```
 
@@ -122,8 +122,8 @@ const client = new DocumentClient({
   ...(process.env.MOCK_DYNAMODB_ENDPOINT && {
     endpoint: process.env.MOCK_DYNAMODB_ENDPOINT,
     sslEnabled: false,
-    region: "local"
-  })
+    region: "local",
+  }),
 });
 ```
 
@@ -211,17 +211,38 @@ jest.config.js
 ```javascript
 module.exports = {
   ...
-  testEnvironment: "jest-dynalite/dist/environment",
+  testEnvironment: "jest-dynalite/environment",
 
   setupFilesAfterEnv: [
-    "jest-dynalite/dist/setupTables",
+    "jest-dynalite/setupTables",
     // Optional (but recommended)
-    "jest-dynalite/dist/clearAfterEach"
+    "jest-dynalite/clearAfterEach"
   ]
 }
 ```
 
 This setup should be used if you want to override the default config of `clearAfterEach`, but still want to use the most simple configuration.
+
+## Development
+
+Clone the repo and install dependencies
+
+```
+yarn
+```
+
+Run tests
+
+```
+yarn test
+```
+
+### Tests
+
+Tests are designed as a mix of unit and integration tests.
+
+Each run of the project is configured by `.jest/features` for each different
+type of configuration for `jest-dynalite`
 
 ## License
 

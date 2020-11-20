@@ -4,7 +4,7 @@ const ddb = new DocumentClient({
   convertEmptyValues: true,
   endpoint: process.env.MOCK_DYNAMODB_ENDPOINT,
   sslEnabled: false,
-  region: "local"
+  region: "local",
 });
 
 it("should insert item into table", async () => {
@@ -18,7 +18,7 @@ it("should insert item into table", async () => {
 
   expect(Item).toEqual({
     id: "1",
-    hello: "world"
+    hello: "world",
   });
 });
 
@@ -29,6 +29,6 @@ it("clears tables between tests", async () => {
 
   expect(Item).not.toEqual({
     id: "1",
-    hello: "world"
+    hello: "world",
   });
 });

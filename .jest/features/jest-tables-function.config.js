@@ -6,6 +6,6 @@ module.exports = {
   setupFilesAfterEnv: ["<rootDir>/.jest/setupAdvancedEnv.js"],
   displayName: {
     name: "tables-function",
-    color: "yellow"
-  }
+    color: "yellow",
+  },
 };

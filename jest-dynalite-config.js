@@ -4,5 +4,5 @@ const tables = require("./.jest/configs/tables");
 // More advanced test configs can be found in .jest/configs
 module.exports = {
   tables,
-  basePort: 8000
+  basePort: 8000,
 };
