@@ -8,17 +8,51 @@ type Connection = {
   documentClient: AWS.DynamoDB.DocumentClient;
 };
 
-const globalObj = typeof window === "undefined" ? global : window;
+const globalObj = (typeof window === "undefined" ? global : window) as {
+  setTimeout: {
+    _isMockFunction?: boolean;
+    clock?: boolean;
+  };
+};
+
+const detectTimers = (): { legacy: boolean; modern: boolean } => {
+  const usingJestAndTimers =
+    typeof jest !== "undefined" && typeof globalObj.setTimeout !== "undefined";
+  const usingLegacyJestFakeTimers =
+    usingJestAndTimers &&
+    // eslint-disable-next-line no-underscore-dangle
+    typeof globalObj.setTimeout._isMockFunction !== "undefined" &&
+    // eslint-disable-next-line no-underscore-dangle
+    globalObj.setTimeout._isMockFunction;
+
+  let usingModernJestFakeTimers = false;
+  if (
+    usingJestAndTimers &&
+    typeof globalObj.setTimeout.clock !== "undefined" &&
+    typeof jest.getRealSystemTime !== "undefined"
+  ) {
+    try {
+      // jest.getRealSystemTime is only supported for Jest's `modern` fake timers and otherwise throws
+      jest.getRealSystemTime();
+      usingModernJestFakeTimers = true;
+    } catch {
+      // not using Jest's modern fake timers
+    }
+  }
+
+  return {
+    legacy: usingLegacyJestFakeTimers,
+    modern: usingModernJestFakeTimers
+  };
+};
 
 // stolen from https://github.com/testing-library/dom-testing-library/blob/master/src/helpers.js
 const runWithRealTimers = <T, R>(
   callback: () => T | Promise<R>
 ): T | Promise<R> => {
-  const usingJestFakeTimers =
-    globalObj.setTimeout &&
-    // eslint-disable-next-line no-underscore-dangle
-    ((globalObj.setTimeout as unknown) as any)._isMockFunction &&
-    typeof jest !== "undefined";
+  const { modern, legacy } = detectTimers();
+
+  const usingJestFakeTimers = modern || legacy;
 
   if (usingJestFakeTimers) {
     jest.useRealTimers();
@@ -29,7 +63,7 @@ const runWithRealTimers = <T, R>(
   if (isPromise(callbackReturnValue)) {
     return callbackReturnValue.then(value => {
       if (usingJestFakeTimers) {
-        jest.useFakeTimers();
+        jest.useFakeTimers(modern ? "modern" : "legacy");
       }
 
       return value;
@@ -37,7 +71,7 @@ const runWithRealTimers = <T, R>(
   }
 
   if (usingJestFakeTimers) {
-    jest.useFakeTimers();
+    jest.useFakeTimers(modern ? "modern" : "legacy");
   }
 
   return callbackReturnValue;
@@ -120,7 +154,7 @@ const waitForDeleted = async (
 
 export const start = async (): Promise<void> => {
   if (!dynaliteInstance.listening) {
-    await new Promise(resolve =>
+    await new Promise<void>(resolve =>
       dynaliteInstance.listen(process.env.MOCK_DYNAMODB_PORT, resolve)
     );
   }
@@ -128,11 +162,11 @@ export const start = async (): Promise<void> => {
 
 export const stop = async (): Promise<void> => {
   if (dynaliteInstance.listening) {
-    await new Promise(resolve => dynaliteInstance.close(() => resolve()));
+    await new Promise<void>(resolve => dynaliteInstance.close(() => resolve()));
   }
 };
 
-export const deleteTables = async (): Promise<void> =>
+export const deleteTables = (): Promise<void> =>
   runWithRealTimers(async () => {
     const { dynamoDB } = dbConnection();
     const tables = await getTables();
@@ -149,7 +183,7 @@ export const deleteTables = async (): Promise<void> =>
     );
   });
 
-export const createTables = async (): Promise<void> =>
+export const createTables = (): Promise<void> =>
   runWithRealTimers(async () => {
     const { dynamoDB, documentClient } = dbConnection();
     const tables = await getTables();
