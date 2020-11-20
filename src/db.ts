@@ -42,7 +42,7 @@ const detectTimers = (): { legacy: boolean; modern: boolean } => {
 
   return {
     legacy: usingLegacyJestFakeTimers,
-    modern: usingModernJestFakeTimers
+    modern: usingModernJestFakeTimers,
   };
 };
 
@@ -61,7 +61,7 @@ const runWithRealTimers = <T, R>(
   const callbackReturnValue = callback();
 
   if (isPromise(callbackReturnValue)) {
-    return callbackReturnValue.then(value => {
+    return callbackReturnValue.then((value) => {
       if (usingJestFakeTimers) {
         jest.useFakeTimers(modern ? "modern" : "legacy");
       }
@@ -80,7 +80,7 @@ const runWithRealTimers = <T, R>(
 const dynaliteInstance = dynalite({
   createTableMs: 0,
   deleteTableMs: 0,
-  updateTableMs: 0
+  updateTableMs: 0,
 });
 
 let connection: Connection | undefined;
@@ -92,19 +92,19 @@ const dbConnection = (): Connection => {
   const options = {
     endpoint: `localhost:${getDynalitePort()}`,
     sslEnabled: false,
-    region: "local"
+    region: "local",
   };
 
   connection = {
     dynamoDB: new AWS.DynamoDB(options),
-    documentClient: new AWS.DynamoDB.DocumentClient(options)
+    documentClient: new AWS.DynamoDB.DocumentClient(options),
   };
 
   return connection;
 };
 
 const sleep = (time: number): Promise<void> =>
-  new Promise(resolve => setTimeout(resolve, time));
+  new Promise((resolve) => setTimeout(resolve, time));
 
 const waitForTable = async (
   client: AWS.DynamoDB,
@@ -154,7 +154,7 @@ const waitForDeleted = async (
 
 export const start = async (): Promise<void> => {
   if (!dynaliteInstance.listening) {
-    await new Promise<void>(resolve =>
+    await new Promise<void>((resolve) =>
       dynaliteInstance.listen(process.env.MOCK_DYNAMODB_PORT, resolve)
     );
   }
@@ -162,7 +162,9 @@ export const start = async (): Promise<void> => {
 
 export const stop = async (): Promise<void> => {
   if (dynaliteInstance.listening) {
-    await new Promise<void>(resolve => dynaliteInstance.close(() => resolve()));
+    await new Promise<void>((resolve) =>
+      dynaliteInstance.close(() => resolve())
+    );
   }
 };
 
@@ -171,7 +173,7 @@ export const deleteTables = (): Promise<void> =>
     const { dynamoDB } = dbConnection();
     const tables = await getTables();
     await Promise.all(
-      tables.map(table =>
+      tables.map((table) =>
         dynamoDB
           .deleteTable({ TableName: table.TableName })
           .promise()
@@ -179,7 +181,7 @@ export const deleteTables = (): Promise<void> =>
       )
     );
     await Promise.all(
-      tables.map(table => waitForDeleted(dynamoDB, table.TableName))
+      tables.map((table) => waitForDeleted(dynamoDB, table.TableName))
     );
   });
 
@@ -189,21 +191,21 @@ export const createTables = (): Promise<void> =>
     const tables = await getTables();
 
     await Promise.all(
-      tables.map(table => dynamoDB.createTable(omit(table, "data")).promise())
+      tables.map((table) => dynamoDB.createTable(omit(table, "data")).promise())
     );
     await Promise.all(
-      tables.map(table => waitForTable(dynamoDB, table.TableName))
+      tables.map((table) => waitForTable(dynamoDB, table.TableName))
     );
     await Promise.all(
       tables.map(
-        table =>
+        (table) =>
           table.data &&
           Promise.all(
-            table.data.map(row => {
+            table.data.map((row) => {
               return documentClient
                 .put({ TableName: table.TableName, Item: row as any })
                 .promise()
-                .catch(e => {
+                .catch((e) => {
                   throw new Error(
                     `Could not add ${JSON.stringify(row)} to "${
                       table.TableName
