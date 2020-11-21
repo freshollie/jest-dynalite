@@ -2,20 +2,20 @@ beforeEach(() => {
   jest.useRealTimers();
 });
 
-it(`uses dynalite and modern timers`, () => {
+it(`handles modern fake timers`, () => {
   jest.useFakeTimers(`modern`);
   const timeout = new Promise((resolve) => setTimeout(resolve, 5000));
   jest.advanceTimersByTime(5000);
   return timeout;
 });
-it(`uses dynalite and legacy timers`, () => {
+it(`still handles legacy fake timers`, () => {
   jest.useFakeTimers();
   const timeout = new Promise((resolve) => setTimeout(resolve, 5000));
   jest.advanceTimersByTime(5000);
   return timeout;
 });
 
-it(`doesnt use dynalite`, () => {
+it(`handles switching back to modern timers`, () => {
   jest.useFakeTimers(`modern`);
   const timeout = new Promise((resolve) => setTimeout(resolve, 5000));
   jest.advanceTimersByTime(5000);
