@@ -4,7 +4,7 @@ const ddb = new DocumentClient({
   convertEmptyValues: true,
   endpoint: process.env.MOCK_DYNAMODB_ENDPOINT,
   sslEnabled: false,
-  region: "local"
+  region: "local",
 });
 
 it("should contain table data provided in config", async () => {
@@ -12,7 +12,7 @@ it("should contain table data provided in config", async () => {
     const { Item } = await ddb
       .get({
         TableName: "images",
-        Key: { url: "https://something.com/something/image.jpg" }
+        Key: { url: "https://something.com/something/image.jpg" },
       })
       .promise();
 
@@ -20,21 +20,21 @@ it("should contain table data provided in config", async () => {
       url: "https://something.com/something/image.jpg",
 
       width: 100,
-      height: 200
+      height: 200,
     });
   }
   {
     const { Item } = await ddb
       .get({
         TableName: "images",
-        Key: { url: "https://something.com/something/image2.jpg" }
+        Key: { url: "https://something.com/something/image2.jpg" },
       })
       .promise();
 
     expect(Item).toEqual({
       url: "https://something.com/something/image2.jpg",
       width: 150,
-      height: 250
+      height: 250,
     });
   }
 });
@@ -43,23 +43,23 @@ it("should ensure that data is recreated after each test", async () => {
   await ddb
     .delete({
       TableName: "images",
-      Key: { url: "https://something.com/something/image2.jpg" }
+      Key: { url: "https://something.com/something/image2.jpg" },
     })
     .promise();
 });
 
 // This test must follow the previous
-it("should ensure that data is recreated after each test", async () => {
+it("post should ensure that data is recreated after each test", async () => {
   const { Item } = await ddb
     .get({
       TableName: "images",
-      Key: { url: "https://something.com/something/image2.jpg" }
+      Key: { url: "https://something.com/something/image2.jpg" },
     })
     .promise();
 
   expect(Item).toEqual({
     url: "https://something.com/something/image2.jpg",
     width: 150,
-    height: 250
+    height: 250,
   });
 });

@@ -1,3 +1,3 @@
 module.exports = {
-  preset: "jest-dynalite"
+  preset: "jest-dynalite",
 };

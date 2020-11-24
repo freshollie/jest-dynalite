@@ -4,7 +4,7 @@ describe("keystore", () => {
   it("should allow items to be placed in the store", async () => {
     await Promise.all([
       keystore.putItem("1", { name: "value" }),
-      keystore.putItem("2", { name: "another value" })
+      keystore.putItem("2", { name: "another value" }),
     ]);
 
     expect(await keystore.getItem("1")).toEqual({ name: "value" });

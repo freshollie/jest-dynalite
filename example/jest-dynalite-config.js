@@ -6,15 +6,15 @@ module.exports = {
       AttributeDefinitions: [{ AttributeName: "id", AttributeType: "S" }],
       ProvisionedThroughput: {
         ReadCapacityUnits: 1,
-        WriteCapacityUnits: 1
+        WriteCapacityUnits: 1,
       },
       data: [
         {
           id: "50",
-          value: { name: "already exists" }
-        }
-      ]
-    }
+          value: { name: "already exists" },
+        },
+      ],
+    },
   ],
-  basePort: 8000
+  basePort: 8000,
 };

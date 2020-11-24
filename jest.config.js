@@ -1,3 +1,3 @@
 module.exports = {
-  projects: ["./.jest/features/jest-*.config.js"]
+  projects: ["./.jest/features/jest-*.config.js"],
 };

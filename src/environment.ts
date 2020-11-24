@@ -3,7 +3,7 @@ import { Config } from "@jest/types";
 import setup from "./setup";
 import { start, stop } from "./db";
 
-export default class DynaliteEnvironment extends NodeEnvironment {
+class DynaliteEnvironment extends NodeEnvironment {
   constructor(projectConfig: Config.ProjectConfig) {
     // The config directory is based on the root directory
     // of the project config
@@ -38,3 +38,5 @@ For more information, please see https://github.com/freshollie/jest-dynalite/#br
     await super.teardown();
   }
 }
+
+export = DynaliteEnvironment;

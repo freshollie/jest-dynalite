@@ -1,37 +1,30 @@
 module.exports = {
-  plugins: ["@typescript-eslint", "prettier", "import"],
+  plugins: ["@typescript-eslint", "prettier", "import", "jest"],
   extends: [
-    "airbnb-base",
-    "plugin:@typescript-eslint/recommended-requiring-type-checking",
-    "prettier/@typescript-eslint",
+    "airbnb-typescript/base",
+    "plugin:jest/recommended",
     "plugin:prettier/recommended",
-    "prettier/react"
+    "prettier/@typescript-eslint",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     warnOnUnsupportedTypeScriptVersion: false,
-    project: "tsconfig.eslint.json"
+    project: "tsconfig.eslint.json",
   },
   env: {
     jest: true,
-    browser: true
-  },
-  settings: {
-    "import/resolver": {
-      node: {
-        extensions: [".js", ".jsx", ".ts", ".tsx"]
-      }
-    }
+    browser: true,
   },
   rules: {
+    "jest/expect-expect": "off",
     "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/explicit-function-return-type": [
       "error",
       {
         allowExpressions: true,
-        allowTypedFunctionExpressions: true
-      }
-    ]
+        allowTypedFunctionExpressions: true,
+      },
+    ],
   },
 
   overrides: [
@@ -39,8 +32,8 @@ module.exports = {
       files: ["**/*.js"],
       rules: {
         "@typescript-eslint/no-var-requires": "off",
-        "@typescript-eslint/explicit-function-return-type": "off"
-      }
-    }
-  ]
+        "@typescript-eslint/explicit-function-return-type": "off",
+      },
+    },
+  ],
 };
