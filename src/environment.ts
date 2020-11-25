@@ -1,5 +1,6 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import NodeEnvironment from "jest-environment-node";
-import { Config } from "@jest/types";
+import type { Config } from "@jest/types";
 import setup from "./setup";
 import { start, stop } from "./db";
 
