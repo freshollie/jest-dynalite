@@ -28,6 +28,7 @@
     "dist",
     "withDb.js",
     "clearAfterEach.js",
+    "environment.js",
     "setupTables.js",
     "jest-preset.js"
   ],
