@@ -9,7 +9,7 @@
   "author": {
     "name": "Oliver Bell",
     "email": "freshollie@gmail.com",
-    "url": "https://ollie.codes"
+    "url": "https://obell.dev"
   },
   "engines": {
     "node": ">=8"
@@ -27,6 +27,8 @@
   "files": [
     "dist",
     "withDb.js",
+    "clearAfterEach.js",
+    "setupTables.js",
     "jest-preset.js"
   ],
   "keywords": [
