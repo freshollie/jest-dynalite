@@ -10,7 +10,13 @@ type Config = {
   basePort?: number;
 };
 
-const CONFIG_FILE_NAME = "jest-dynalite-config.js";
+export const CONFIG_FILE_NAME = "jest-dynalite-config.js";
+
+export class NotFoundError extends Error {
+  constructor(dir: string) {
+    super(`Could not find '${CONFIG_FILE_NAME}' in dir ${dir}`);
+  }
+}
 
 let configDir: string =
   process.env.JEST_DYNALITE_CONFIG_DIRECTORY || process.cwd();
@@ -18,20 +24,22 @@ let configDir: string =
 const readConfig = (): Config => {
   const configFile = resolve(configDir, CONFIG_FILE_NAME);
   if (fs.existsSync(configFile)) {
-    return require(configFile); // eslint-disable-line import/no-dynamic-require, global-require
+    try {
+      return require(configFile); // eslint-disable-line import/no-dynamic-require, global-require
+    } catch (e) {
+      throw new Error(
+        `Something went wrong reading your ${CONFIG_FILE_NAME}: ${e.message}`
+      );
+    }
   }
 
-  throw new Error(
-    `Could not find '${CONFIG_FILE_NAME}' in ${resolve(configDir)}`
-  );
+  throw new NotFoundError(resolve(configDir));
 };
 
 export const setConfigDir = (directory: string): void => {
   const configFile = resolve(directory, CONFIG_FILE_NAME);
   if (!fs.existsSync(configFile)) {
-    throw new Error(
-      `Could not find '${CONFIG_FILE_NAME}' in ${resolve(configDir)}`
-    );
+    throw new NotFoundError(resolve(configDir));
   }
 
   process.env.JEST_DYNALITE_CONFIG_DIRECTORY = directory;

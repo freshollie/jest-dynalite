@@ -77,7 +77,7 @@ const runWithRealTimers = <T, R>(
   return callbackReturnValue;
 };
 
-const dynaliteInstance = dynalite({
+export const dynaliteInstance = dynalite({
   createTableMs: 0,
   deleteTableMs: 0,
   updateTableMs: 0,

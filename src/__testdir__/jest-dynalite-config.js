@@ -1,0 +1,2 @@
+// fake config
+module.exports = {};

@@ -3,6 +3,7 @@ import NodeEnvironment from "jest-environment-node";
 import type { Config } from "@jest/types";
 import setup from "./setup";
 import { start, stop } from "./db";
+import { CONFIG_FILE_NAME, NotFoundError } from "./config";
 
 class DynaliteEnvironment extends NodeEnvironment {
   constructor(projectConfig: Config.ProjectConfig) {
@@ -13,8 +14,9 @@ class DynaliteEnvironment extends NodeEnvironment {
     try {
       setup(rootDir);
     } catch (e) {
-      throw new Error(`
-jest-dynalite could not find "jest-dynalite-config.js" in the jest <rootDir> (${rootDir}).
+      if (e instanceof NotFoundError) {
+        throw new Error(`
+jest-dynalite could not find "${CONFIG_FILE_NAME}" in the jest <rootDir> (${rootDir}).
 
 If you didn't intend to be using this directory for the config, please specify a custom
 directory: https://github.com/freshollie/jest-dynalite/#advanced-setup
@@ -24,6 +26,8 @@ to your "setupFilesAfterEnv" instead of using the preset.
 
 For more information, please see https://github.com/freshollie/jest-dynalite/#breaking-changes.
       `);
+      }
+      throw e;
     }
 
     super(projectConfig);
@@ -34,10 +38,11 @@ For more information, please see https://github.com/freshollie/jest-dynalite/#br
     await start();
   }
 
-  async teardown(): Promise<void> {
+  public async teardown(): Promise<void> {
     await stop();
     await super.teardown();
   }
 }
 
-export = DynaliteEnvironment;
+export default DynaliteEnvironment;
+module.exports = DynaliteEnvironment;

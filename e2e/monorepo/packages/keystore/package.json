@@ -1,0 +1,14 @@
+{
+    "name": "monorepo-package",
+    "version": "1.0.0",
+    "private": true,
+    "scripts": {
+        "test": "jest"
+    },
+    "devDependencies": {
+        "jest-dynalite": "file:../../../../"
+    },
+    "dependencies": {
+        "aws-sdk": "^2.771.0"
+    }
+}
