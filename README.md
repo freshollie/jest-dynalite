@@ -44,12 +44,17 @@ From `v3.0.0` you can now use the preset in a monorepo. The `jest-dynalite-confi
 yarn add jest-dynalite -D
 ```
 
+## Examples
+
+Please follow the [below config](#config) to setup your tests to use `jest-dynalite`. However, if you are looking for
+some example project structures, please see the [examples](https://github.com/fresholli/jest-dynalite/tree/master/e2e).
+
 ## Timeouts
 
 Because jest has a default timeout of 5000ms per test, `jest-dynalite` can sometimes cause failures due to the timeout
 being exceeded. This can happen when there are many tests or lots of tables to create between tests.
 If this happens, try increasing your test timeouts `jest.setTimeout(10000)`. Another option is to selectively
-run the database only for suites which use it. Please see [advanced config](###Monorepo/Advanced-setup).
+run the database only for suites which use it. Please see [advanced config](###Advanced-setup).
 
 ## Config
 
