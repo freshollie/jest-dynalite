@@ -1,6 +1,7 @@
 # jest-dynalite
 
 [![Pipeline status](https://github.com/freshollie/jest-dynalite/workflows/Pipeline/badge.svg)](https://github.com/freshollie/jest-dynalite/actions)
+[![Coverage Status](https://coveralls.io/repos/github/freshollie/jest-dynalite/badge.svg?branch=master)](https://coveralls.io/github/freshollie/jest-dynalite?branch=master)
 [![Npm version](https://img.shields.io/npm/v/jest-dynalite)](https://www.npmjs.com/package/jest-dynalite)
 [![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 
@@ -239,10 +240,15 @@ yarn test
 
 ### Tests
 
-Tests are designed as a mix of unit and integration tests.
+Tests are designed as a mix of unit, integration tests, and e2e tests.
 
-Each run of the project is configured by `.jest/features` for each different
-type of configuration for `jest-dynalite`
+`yarn test` will run all unit and integration tests
+
+Integration tests are configured under the `tests` directory, with
+[jest projects](https://jestjs.io/docs/en/configuration#projects-arraystring--projectconfig) used to managed
+testing different configurations for jest-dynalite.
+
+`yarn e2e` will run e2e tests
 
 ## License
 

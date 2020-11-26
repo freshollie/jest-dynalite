@@ -15,18 +15,17 @@
     "node": ">=8"
   },
   "scripts": {
-    "coverage": "jest --coverage",
-    "lint": "eslint --ext js,jsx,ts,tsx .",
+    "lint": "yarn build && eslint --ext js,jsx,ts,tsx .",
     "test": "jest",
-    "test:environment": "yarn pretest && jest -c jest-environment.config.js",
-    "test:advanced": "yarn pretest && jest -c jest-advanced.config.js",
-    "build": "rm -rf dist && tsc",
-    "pretest": "yarn build",
+    "test:types": "tsc --noEmit",
+    "e2e": "echo 'Testing simple preset'\n cd e2e/preset\n yarn\n yarn test\n echo 'Testing simple preset in monorepo'\n cd ../monorepo\n yarn\n yarn test",
+    "build": "rm -rf dist && tsc -p tsconfig.build.json",
     "prepare": "yarn build"
   },
   "files": [
     "dist",
     "withDb.js",
+    "environment.js",
     "clearAfterEach.js",
     "environment.js",
     "setupTables.js",
@@ -48,6 +47,9 @@
     "jest": ">=20"
   },
   "devDependencies": {
+    "@babel/core": "^7.12.9",
+    "@babel/preset-env": "^7.12.7",
+    "@babel/preset-typescript": "^7.12.7",
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
     "@jest/types": "^26.6.2",
@@ -56,6 +58,7 @@
     "@typescript-eslint/eslint-plugin": "^4.8.1",
     "@typescript-eslint/parser": "^4.8.1",
     "aws-sdk": "^2.796.0",
+    "babel-jest": "^26.6.3",
     "commitlint": "^11.0.0",
     "eslint": "^7.13.0",
     "eslint-config-airbnb-base": "^14.0.0",

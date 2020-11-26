@@ -1,4 +1,4 @@
-const { startDb, stopDb, createTables, deleteTables } = require("../dist");
+import { startDb, stopDb, createTables, deleteTables } from "../../src";
 
 beforeAll(startDb);
 

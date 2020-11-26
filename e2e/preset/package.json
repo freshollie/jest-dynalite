@@ -6,7 +6,7 @@
     },
     "devDependencies": {
         "jest": "^26.5.2",
-        "jest-dynalite": "file:../"
+        "jest-dynalite": "file:../../"
     },
     "dependencies": {
         "aws-sdk": "^2.771.0"

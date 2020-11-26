@@ -1,6 +1,6 @@
 name: Pipeline
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   lint:
@@ -14,10 +14,11 @@ jobs:
           node-version: "10.x"
       - name: Lint
         run: |
-          yarn --frozen-lockfile
+          yarn --frozen-lockfile --ignore-scripts
           yarn lint
         env:
           CI: true
+
   build:
     runs-on: ubuntu-latest
 
@@ -30,7 +31,7 @@ jobs:
       - name: Build
         run: |
           yarn --frozen-lockfile --ignore-scripts
-          yarn build
+          yarn test:types
         env:
           CI: true
 
@@ -51,11 +52,15 @@ jobs:
       - name: Test
         run: |
           yarn --frozen-lockfile --ignore-scripts
-          yarn test
+          yarn test --coverage
         env:
           CI: true
+      - name: Publish Coverage
+        uses: coverallsapp/github-action@master
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
 
-  test-example:
+  e2e:
     runs-on: ubuntu-latest
     needs: build
 
@@ -69,19 +74,17 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Test example
+      - name: E2E Tests
         run: |
           yarn
-          cd example 
-          yarn
-          yarn test
+          yarn e2e
         env:
           CI: true
 
   publish:
     runs-on: ubuntu-latest
 
-    needs: [test, test-example]
+    needs: [lint, test, e2e]
 
     if: startsWith(github.ref, 'refs/tags/v') && contains(github.ref, '.')
     steps:

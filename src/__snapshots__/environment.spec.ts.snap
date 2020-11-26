@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`environment should throw an error if config file could not be located 1`] = `
+exports[`Environment should throw an error if config file could not be located 1`] = `
 "
 jest-dynalite could not find \\"jest-dynalite-config.js\\" in the jest <rootDir> (somebaddirectory).
 

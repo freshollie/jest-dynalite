@@ -10,7 +10,7 @@ declare module "dynalite" {
     maxItemSizeKb?: number;
   }
 
-  declare class DynaliteServer extends Server {
+  export declare class DynaliteServer extends Server {
     public close(cb?: (err?: Error) => void): void;
   }
 

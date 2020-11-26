@@ -1,4 +1,4 @@
-const { DocumentClient } = require("aws-sdk/clients/dynamodb");
+import { DocumentClient } from "aws-sdk/clients/dynamodb";
 
 const ddb = new DocumentClient({
   convertEmptyValues: true,
