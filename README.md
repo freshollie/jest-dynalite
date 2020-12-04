@@ -47,7 +47,7 @@ yarn add jest-dynalite -D
 ## Examples
 
 Please follow the [below config](#config) to setup your tests to use `jest-dynalite`. However, if you are looking for
-some example project structures, please see the [examples](https://github.com/fresholli/jest-dynalite/tree/master/e2e).
+some example project structures, please see the [examples](https://github.com/freshollie/jest-dynalite/tree/master/e2e).
 
 ## Timeouts
 
