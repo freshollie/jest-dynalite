@@ -19,6 +19,9 @@ export const start = async (): Promise<void> => {
 
 export const stop = async (): Promise<void> => {
   if (hasV3()) {
+    // v3 does something to prevent dynalite
+    // from shutting down until we have
+    // killed the dynamodb connection
     dynamodbv3.killConnection();
   }
   if (dynaliteInstance.listening) {
