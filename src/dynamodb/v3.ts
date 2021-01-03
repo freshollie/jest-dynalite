@@ -123,3 +123,7 @@ export const createTables = (
       )
     );
   });
+
+export const killConnection = (): void => {
+  connection?.dynamoDB.destroy();
+};

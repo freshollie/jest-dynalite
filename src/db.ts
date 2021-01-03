@@ -18,6 +18,9 @@ export const start = async (): Promise<void> => {
 };
 
 export const stop = async (): Promise<void> => {
+  if (hasV3()) {
+    dynamodbv3.killConnection();
+  }
   if (dynaliteInstance.listening) {
     await new Promise<void>((resolve) =>
       dynaliteInstance.close(() => resolve())

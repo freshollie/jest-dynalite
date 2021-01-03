@@ -49,10 +49,17 @@ yarn add jest-dynalite -D
 Please follow the [below config](#config) to setup your tests to use `jest-dynalite`. However, if you are looking for
 some example project structures, please see the [examples](https://github.com/freshollie/jest-dynalite/tree/master/e2e).
 
+### aws-sdk v3
+
+With `@aws-sdk/client-dynamodb` it seems that the connection handler stays active (that is, it doesn't die) for a few seconds
+after your tests have finished. Make sure you run `client.destroy()` on your client after every test suite
+or your tests suites will take much longer than they should to run. See an example [here](##Update-your-sourcecode)
+
 ## Timeouts
 
 Because jest has a default timeout of 5000ms per test, `jest-dynalite` can sometimes cause failures due to the timeout
 being exceeded. This can happen when there are many tests or lots of tables to create between tests.
+
 If this happens, try increasing your test timeouts `jest.setTimeout(10000)`. Another option is to selectively
 run the database only for suites which use it. Please see [advanced config](###Advanced-setup).
 
@@ -123,7 +130,7 @@ module.exports = {
 ## Update your sourcecode
 
 ```javascript
-const client = new DocumentClient({
+const client = new DynamoDB({
   ...yourConfig,
   ...(process.env.MOCK_DYNAMODB_ENDPOINT && {
     endpoint: process.env.MOCK_DYNAMODB_ENDPOINT,
@@ -134,6 +141,15 @@ const client = new DocumentClient({
 ```
 
 `process.env.MOCK_DYNAMODB_ENDPOINT` is unqiue to each test runner.
+
+After all your tests, make sure you destroy your client.
+You can even do this by adding this after all in a [`setupFilesAfterEnv`](https://jestjs.io/docs/en/configuration#setupfilesafterenv-array) file.
+
+```javascript
+afterAll(() => {
+  client.destroy();
+});
+```
 
 ## Jest config
 
