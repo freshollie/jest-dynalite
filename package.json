@@ -40,13 +40,16 @@
     "jest environment"
   ],
   "dependencies": {
+    "@aws/dynamodb-auto-marshaller": "^0.7.1",
     "dynalite": "^3.0.0"
   },
   "peerDependencies": {
+    "@aws-sdk/client-dynamodb": ">=3",
     "aws-sdk": "2.x.x",
     "jest": ">=20"
   },
   "devDependencies": {
+    "@aws-sdk/client-dynamodb": "^3.1.0",
     "@babel/core": "^7.12.9",
     "@babel/preset-env": "^7.12.7",
     "@babel/preset-typescript": "^7.12.7",

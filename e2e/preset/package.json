@@ -9,6 +9,6 @@
         "jest-dynalite": "file:../../"
     },
     "dependencies": {
-        "aws-sdk": "^2.771.0"
+        "@aws-sdk/client-dynamodb": "^3.1.0"
     }
 }

@@ -1,14 +1,7 @@
 import fs from "fs";
 import { resolve } from "path";
-import { CreateTableInput } from "aws-sdk/clients/dynamodb";
+import { Config, TableConfig } from "./types";
 import { isFunction } from "./utils";
-
-type TableConfig = CreateTableInput & { data?: unknown[] };
-
-type Config = {
-  tables?: TableConfig[] | (() => TableConfig[] | Promise<TableConfig[]>);
-  basePort?: number;
-};
 
 export const CONFIG_FILE_NAME = "jest-dynalite-config.js";
 

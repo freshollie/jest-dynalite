@@ -3,4 +3,5 @@ module.exports = {
   coveragePathIgnorePatterns: ["/tests/", "/__testdir__/"],
   collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/**/*.js"],
   testPathIgnorePatterns: ["/node_modules/", "/e2e/", "/src/"],
+  testTimeout: 10000,
 };

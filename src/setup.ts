@@ -7,7 +7,7 @@ export default (withConfigDir: string): void => {
 
   // Provide environment variables before other scripts are executed
   process.env.MOCK_DYNAMODB_PORT = port.toString();
-  process.env.MOCK_DYNAMODB_ENDPOINT = `localhost:${port}`;
+  process.env.MOCK_DYNAMODB_ENDPOINT = `http://localhost:${port}`;
 
   // aws-sdk requires access and secret key to be able to call DDB
   if (!process.env.AWS_ACCESS_KEY_ID) {
