@@ -30,6 +30,7 @@ This library could almost be seen as an integration test, but without the overhe
 - Isolated tables between test runners
 - Ability to specify config directory
 - No `java` requirement
+- Works with both `@aws-sdk/client-dynamodb` and `aws-sdk`
 
 ## **BREAKING CHANGES**
 
@@ -47,9 +48,11 @@ Make sure you run `client.destroy()` on your client after every test suite to mi
 
 ## Installation
 
+```bash
+$ yarn add jest-dynalite -D
 ```
-yarn add jest-dynalite -D
-```
+
+(Make sure you have `@aws-sdk/client-dynamodb` or `aws-sdk` also installed)
 
 ## Examples
 
