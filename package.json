@@ -24,6 +24,7 @@
   },
   "files": [
     "dist",
+    "types",
     "withDb.js",
     "environment.js",
     "clearAfterEach.js",
