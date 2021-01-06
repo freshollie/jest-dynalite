@@ -9,7 +9,7 @@
 
 `jest-dynalite` is a fork of [@shelf/jest-dynamodb](https://github.com/shelfio/jest-dynamodb) that allows unit tests to execute real
 queries against a local DynamoDB instance. It was created in an attempt to address some of the most important missing
-features of `@shelf/jest-dynamodb`, such as the fact that it uses a single shared database, which makes it hard to keep tests independent while also potentially causing race conditions because of jest's parallel execution of tests (see [this issue](https://github.com/shelfio/jest-dynamodb/issues/55) for more information).
+features of `@shelf/jest-dynamodb`, such as requiring all your tests to use a single shared database. See [this issue](https://github.com/shelfio/jest-dynamodb/issues/55) for more motivation.
 
 ## Why should I use this?
 
@@ -22,8 +22,7 @@ This in turn makes your tests much more robust, because a change to a data struc
 db query in your application will be reflected by failing tests, instead of using mocks to check
 if calls were made correctly.
 
-This library could almost be seen as an integration test, but the lines are very blurred these days and
-I'd definitely place this within the unit testing boundary because it can easily integrate with unit tests.
+This library could almost be seen as an integration test, but without the overhead of typical integration tests.
 
 ## Features
 
@@ -31,6 +30,7 @@ I'd definitely place this within the unit testing boundary because it can easily
 - Isolated tables between test runners
 - Ability to specify config directory
 - No `java` requirement
+- Works with both `@aws-sdk/client-dynamodb` and `aws-sdk`
 
 ## **BREAKING CHANGES**
 
@@ -38,11 +38,21 @@ From `v2.0.0` `jest-dynalite` now uses a JavaScript file for table configuration
 
 From `v3.0.0` you can now use the preset in a monorepo. The `jest-dynalite-config.js` will be picked up from your jest `<rootDir>`, which should be the same directory as your jest config.
 
+### `@aws-sdk/client-dynamodb`
+
+With the release of `v3.3.0` it is now possible to use `@aws-sdk/client-dynamodb` instead of `aws-sdk`.
+
+However, it seems that with this new verion the dynamodb client connection stays active for a few seconds after your tests have finished and thus stops `dynalite` from being able to teardown after each test suite (test file).
+
+Make sure you run `client.destroy()` on your client after every test suite to mitigate this issue. See an example [here](##Update-your-sourcecode)
+
 ## Installation
 
+```bash
+$ yarn add jest-dynalite -D
 ```
-yarn add jest-dynalite -D
-```
+
+(Make sure you have `@aws-sdk/client-dynamodb` or `aws-sdk` also installed)
 
 ## Examples
 
@@ -53,6 +63,7 @@ some example project structures, please see the [examples](https://github.com/fr
 
 Because jest has a default timeout of 5000ms per test, `jest-dynalite` can sometimes cause failures due to the timeout
 being exceeded. This can happen when there are many tests or lots of tables to create between tests.
+
 If this happens, try increasing your test timeouts `jest.setTimeout(10000)`. Another option is to selectively
 run the database only for suites which use it. Please see [advanced config](###Advanced-setup).
 
@@ -123,7 +134,7 @@ module.exports = {
 ## Update your sourcecode
 
 ```javascript
-const client = new DocumentClient({
+const client = new DynamoDB({
   ...yourConfig,
   ...(process.env.MOCK_DYNAMODB_ENDPOINT && {
     endpoint: process.env.MOCK_DYNAMODB_ENDPOINT,
@@ -134,6 +145,15 @@ const client = new DocumentClient({
 ```
 
 `process.env.MOCK_DYNAMODB_ENDPOINT` is unqiue to each test runner.
+
+After all your tests, make sure you destroy your client.
+You can even do this by adding an `afterAll` in a [`setupFilesAfterEnv`](https://jestjs.io/docs/en/configuration#setupfilesafterenv-array) file.
+
+```javascript
+afterAll(() => {
+  client.destroy();
+});
+```
 
 ## Jest config
 
