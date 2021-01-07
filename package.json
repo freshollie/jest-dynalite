@@ -49,6 +49,14 @@
     "aws-sdk": "2.x.x",
     "jest": ">=20"
   },
+  "peerDependenciesMeta": {   
+    "@aws-sdk/client-dynamodb": {     
+      "optional": true   
+    },   
+    "aws-sdk": {      
+      "optional": true  
+    } 
+ },
   "devDependencies": {
     "@aws-sdk/client-dynamodb": "^3.1.0",
     "@babel/core": "^7.12.9",
