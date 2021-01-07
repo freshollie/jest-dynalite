@@ -1,7 +1,6 @@
 import dynalite from "dynalite";
 import { getTables, getDynalitePort } from "./config";
 import { hasV3 } from "./utils";
-import { dynamodbv2, dynamodbv3 } from "./dynamodb";
 
 export const dynaliteInstance = dynalite({
   createTableMs: 0,
@@ -22,7 +21,7 @@ export const stop = async (): Promise<void> => {
     // v3 does something to prevent dynalite
     // from shutting down until we have
     // killed the dynamodb connection
-    dynamodbv3.killConnection();
+    (await import("./dynamodb/v3")).killConnection();
   }
   if (dynaliteInstance.listening) {
     await new Promise<void>((resolve) =>
@@ -34,17 +33,29 @@ export const stop = async (): Promise<void> => {
 export const deleteTables = async (): Promise<void> => {
   const tablesNames = (await getTables()).map((table) => table.TableName);
   if (hasV3()) {
-    await dynamodbv3.deleteTables(tablesNames, getDynalitePort());
+    await (await import("./dynamodb/v3")).deleteTables(
+      tablesNames,
+      getDynalitePort()
+    );
   } else {
-    await dynamodbv2.deleteTables(tablesNames, getDynalitePort());
+    await (await import("./dynamodb/v2")).deleteTables(
+      tablesNames,
+      getDynalitePort()
+    );
   }
 };
 
 export const createTables = async (): Promise<void> => {
   const tables = await getTables();
   if (hasV3()) {
-    await dynamodbv3.createTables(tables, getDynalitePort());
+    await (await import("./dynamodb/v3")).createTables(
+      tables,
+      getDynalitePort()
+    );
   } else {
-    await dynamodbv2.createTables(tables, getDynalitePort());
+    await (await import("./dynamodb/v2")).createTables(
+      tables,
+      getDynalitePort()
+    );
   }
 };
