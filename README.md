@@ -42,7 +42,7 @@ From `v3.0.0` you can now use the preset in a monorepo. The `jest-dynalite-confi
 
 With the release of `v3.3.0` it is now possible to use `@aws-sdk/client-dynamodb` instead of `aws-sdk`.
 
-However, it seems that with this new verion the dynamodb client connection stays active for a few seconds after your tests have finished and thus stops `dynalite` from being able to teardown after each test suite (test file).
+However, it seems that with this new version the dynamodb client connection stays active for a few seconds after your tests have finished and thus stops `dynalite` from being able to teardown after each test suite (test file).
 
 Make sure you run `client.destroy()` on your client after every test suite to mitigate this issue. See an example [here](##Update-your-sourcecode)
 
