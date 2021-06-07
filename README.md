@@ -44,7 +44,7 @@ With the release of `v3.3.0` it is now possible to use `@aws-sdk/client-dynamodb
 
 However, it seems that with this new version the dynamodb client connection stays active for a few seconds after your tests have finished and thus stops `dynalite` from being able to teardown after each test suite (test file).
 
-Make sure you run `client.destroy()` on your client after every test suite to mitigate this issue. See an example [here](##Update-your-sourcecode)
+Make sure you run `client.destroy()` on your client after every test suite to mitigate this issue. See an example [here](#Update-your-sourcecode)
 
 ## Installation
 
