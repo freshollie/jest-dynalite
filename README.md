@@ -69,10 +69,11 @@ run the database only for suites which use it. Please see [advanced config](###A
 
 ## Config
 
-In your jest project root (next to your `jest.config.js`), create a `jest-dynalite-config.js` with the tables schemas,
+In your jest project root (next to your `jest.config.js`), create a `jest-dynalite-config.js` (or `.ts`) with the tables schemas,
 and an optional `basePort` to run dynalite on:
 
 ```js
+// use export default for ts based configs
 module.exports = {
   tables: [
     {

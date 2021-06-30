@@ -4,24 +4,33 @@ import { Config, TableConfig } from "./types";
 import { isFunction } from "./utils";
 
 export const CONFIG_FILE_NAME = "jest-dynalite-config.js";
+export const CONFIG_FILE_NAME_TS = "jest-dynalite-config.ts";
 
 export class NotFoundError extends Error {
   constructor(dir: string) {
-    super(`Could not find '${CONFIG_FILE_NAME}' in dir ${dir}`);
+    super(
+      `Could not find '${CONFIG_FILE_NAME}' or '${CONFIG_FILE_NAME_TS}' in dir ${dir}`
+    );
   }
 }
 
 let configDir: string =
   process.env.JEST_DYNALITE_CONFIG_DIRECTORY || process.cwd();
+let configFile: string =
+  process.env.JEST_DYNALITE_CONFIG_FILE || CONFIG_FILE_NAME;
 
 const readConfig = (): Config => {
-  const configFile = resolve(configDir, CONFIG_FILE_NAME);
-  if (fs.existsSync(configFile)) {
+  const file = resolve(configDir, configFile);
+  if (fs.existsSync(file)) {
     try {
-      return require(configFile); // eslint-disable-line import/no-dynamic-require, global-require
+      const importedConfig = require(file); // eslint-disable-line import/no-dynamic-require, global-require
+      if ("default" in importedConfig) {
+        return importedConfig.default;
+      }
+      return importedConfig;
     } catch (e) {
       throw new Error(
-        `Something went wrong reading your ${CONFIG_FILE_NAME}: ${e.message}`
+        `Something went wrong reading your ${configFile}: ${e.message}`
       );
     }
   }
@@ -30,12 +39,18 @@ const readConfig = (): Config => {
 };
 
 export const setConfigDir = (directory: string): void => {
-  const configFile = resolve(directory, CONFIG_FILE_NAME);
-  if (!fs.existsSync(configFile)) {
-    throw new NotFoundError(resolve(configDir));
+  const foundFile = [CONFIG_FILE_NAME, CONFIG_FILE_NAME_TS].find((config) => {
+    const file = resolve(directory, config);
+    return fs.existsSync(file);
+  });
+
+  if (!foundFile) {
+    throw new NotFoundError(resolve(directory));
   }
 
+  process.env.JEST_DYNALITE_CONFIG_FILE = foundFile;
   process.env.JEST_DYNALITE_CONFIG_DIRECTORY = directory;
+  configFile = foundFile;
   configDir = directory;
 };
 
