@@ -4,39 +4,60 @@ import { Config, TableConfig } from "./types";
 import { isFunction } from "./utils";
 
 export const CONFIG_FILE_NAME = "jest-dynalite-config.js";
+export const CONFIG_FILE_NAME_TS = "jest-dynalite-config.ts";
 
 export class NotFoundError extends Error {
   constructor(dir: string) {
-    super(`Could not find '${CONFIG_FILE_NAME}' in dir ${dir}`);
+    super(
+      `Could not find '${CONFIG_FILE_NAME}' or '${CONFIG_FILE_NAME_TS}' in dir ${dir}`
+    );
   }
 }
 
-let configDir: string =
-  process.env.JEST_DYNALITE_CONFIG_DIRECTORY || process.cwd();
+if (!process.env.JEST_DYNALITE_CONFIG_DIRECTORY) {
+  process.env.JEST_DYNALITE_CONFIG_DIRECTORY = process.cwd();
+}
 
-const readConfig = (): Config => {
-  const configFile = resolve(configDir, CONFIG_FILE_NAME);
-  if (fs.existsSync(configFile)) {
-    try {
-      return require(configFile); // eslint-disable-line import/no-dynamic-require, global-require
-    } catch (e) {
-      throw new Error(
-        `Something went wrong reading your ${CONFIG_FILE_NAME}: ${e.message}`
-      );
+const findConfigOrError = (
+  directory: string
+): typeof CONFIG_FILE_NAME | typeof CONFIG_FILE_NAME_TS => {
+  const foundFile = ([CONFIG_FILE_NAME, CONFIG_FILE_NAME_TS] as const).find(
+    (config) => {
+      const file = resolve(directory, config);
+      return fs.existsSync(file);
     }
+  );
+
+  if (!foundFile) {
+    throw new NotFoundError(resolve(directory));
   }
 
-  throw new NotFoundError(resolve(configDir));
+  return foundFile;
+};
+
+const readConfig = (): Config => {
+  const configFile = findConfigOrError(
+    process.env.JEST_DYNALITE_CONFIG_DIRECTORY!
+  );
+  const file = resolve(process.env.JEST_DYNALITE_CONFIG_DIRECTORY!, configFile);
+
+  try {
+    const importedConfig = require(file); // eslint-disable-line import/no-dynamic-require, global-require
+    if ("default" in importedConfig) {
+      return importedConfig.default;
+    }
+    return importedConfig;
+  } catch (e) {
+    throw new Error(
+      `Something went wrong reading your ${configFile}: ${e.message}`
+    );
+  }
 };
 
 export const setConfigDir = (directory: string): void => {
-  const configFile = resolve(directory, CONFIG_FILE_NAME);
-  if (!fs.existsSync(configFile)) {
-    throw new NotFoundError(resolve(configDir));
-  }
-
+  // Only allow this directory to be set if a config exists
+  findConfigOrError(directory);
   process.env.JEST_DYNALITE_CONFIG_DIRECTORY = directory;
-  configDir = directory;
 };
 
 export const getDynalitePort = (): number => {
