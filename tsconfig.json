@@ -4,7 +4,6 @@
     "lib": ["esnext", "DOM"],
     "outDir": "./dist",
     "module": "commonjs",
-    "skipLibCheck": true,
     "strict": true,
     "esModuleInterop": true,
     "sourceMap": true,
