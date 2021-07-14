@@ -10,11 +10,9 @@ declare module "dynalite" {
     maxItemSizeKb?: number;
   }
 
-  export class DynaliteServer extends Server {
-    public close(cb?: (err?: Error) => void): this;
-  }
-
-  function createDynalite(options: DynaliteOptions): DynaliteServer;
+  function createDynalite(
+    options: DynaliteOptions
+  ): Server & { close(cb?: (err?: Error) => void | undefined): void };
 
   export default createDynalite;
 }
