@@ -14,11 +14,14 @@
   "engines": {
     "node": ">=8"
   },
+  "workspaces": [
+    "./e2e/*"
+  ],
   "scripts": {
     "lint": "yarn build && eslint --ext js,jsx,ts,tsx .",
     "test": "jest",
     "test:types": "tsc --noEmit",
-    "e2e": "echo 'Testing simple preset'\n cd e2e/preset\n yarn\n yarn test\n echo 'Testing simple preset in monorepo'\n cd ../monorepo\n yarn\n yarn test",
+    "e2e": "echo 'Testing simple preset'&& cd e2e/preset && yarn test && echo 'Testing simple preset in monorepo' && cd ../monorepo && yarn test",
     "build": "rm -rf dist && tsc -p tsconfig.build.json",
     "prepare": "yarn build && husky install"
   },
@@ -28,7 +31,6 @@
     "withDb.js",
     "environment.js",
     "clearAfterEach.js",
-    "environment.js",
     "setupTables.js",
     "jest-preset.js"
   ],

@@ -1,7 +1,9 @@
 {
     "name": "jest-dynalite-e2e-monorepo",
     "private": true,
-    "workspaces": ["./packages/*"],
+    "workspaces": [
+        "./packages/*"
+    ],
     "scripts": {
         "test": "jest"
     },

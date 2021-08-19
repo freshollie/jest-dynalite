@@ -11,7 +11,7 @@ jobs:
       - name: Use Node.js 10
         uses: actions/setup-node@v1
         with:
-          node-version: "10.x"
+          node-version: "12.x"
       - name: Lint
         run: |
           yarn --frozen-lockfile --ignore-scripts
@@ -27,7 +27,7 @@ jobs:
       - name: Use Node.js 10
         uses: actions/setup-node@v1
         with:
-          node-version: "10.x"
+          node-version: "12.x"
       - name: Build
         run: |
           yarn --frozen-lockfile --ignore-scripts
@@ -41,7 +41,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [12.x, 14.x]
 
     steps:
       - uses: actions/checkout@v1
@@ -66,7 +66,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x]
+        node-version: [12.x, 14.x]
 
     steps:
       - uses: actions/checkout@v1
@@ -92,7 +92,7 @@ jobs:
       - name: Use Node.js 10
         uses: actions/setup-node@v1
         with:
-          node-version: "10.x"
+          node-version: "12.x"
           registry-url: "https://registry.npmjs.org"
       - name: Publish
         run: |
