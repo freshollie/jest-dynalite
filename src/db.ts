@@ -33,29 +33,25 @@ export const stop = async (): Promise<void> => {
 export const deleteTables = async (): Promise<void> => {
   const tablesNames = (await getTables()).map((table) => table.TableName);
   if (hasV3()) {
-    await (await import("./dynamodb/v3")).deleteTables(
-      tablesNames,
-      getDynalitePort()
-    );
+    await (
+      await import("./dynamodb/v3")
+    ).deleteTables(tablesNames, getDynalitePort());
   } else {
-    await (await import("./dynamodb/v2")).deleteTables(
-      tablesNames,
-      getDynalitePort()
-    );
+    await (
+      await import("./dynamodb/v2")
+    ).deleteTables(tablesNames, getDynalitePort());
   }
 };
 
 export const createTables = async (): Promise<void> => {
   const tables = await getTables();
   if (hasV3()) {
-    await (await import("./dynamodb/v3")).createTables(
-      tables,
-      getDynalitePort()
-    );
+    await (
+      await import("./dynamodb/v3")
+    ).createTables(tables, getDynalitePort());
   } else {
-    await (await import("./dynamodb/v2")).createTables(
-      tables,
-      getDynalitePort()
-    );
+    await (
+      await import("./dynamodb/v2")
+    ).createTables(tables, getDynalitePort());
   }
 };
