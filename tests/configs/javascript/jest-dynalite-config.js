@@ -1,4 +1,4 @@
-const tables = require("../tables");
+const tables = require("./tables");
 
 module.exports = {
   tables: () => tables,

@@ -1,4 +1,4 @@
-import tables from "./tables";
+import tables from "../tables";
 
 export default {
   tables: () => tables,

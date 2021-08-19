@@ -3,10 +3,10 @@ import base from "../jest.base";
 
 export default {
   ...base,
-  setupFiles: [join(__dirname, "setups/setupTablesFunctionTs.ts")],
+  setupFiles: [join(__dirname, "setups/setupTablesFunctionJs.ts")],
   setupFilesAfterEnv: [join(__dirname, "setups/setupAdvancedEnv.ts")],
   displayName: {
-    name: "tables-function-ts",
+    name: "tables-function-js",
     color: "yellow",
   },
 };
