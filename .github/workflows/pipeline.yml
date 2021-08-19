@@ -14,7 +14,7 @@ jobs:
           node-version: "12.x"
       - name: Lint
         run: |
-          yarn --frozen-lockfile --ignore-scripts
+          yarn install --immutable --mode=skip-build
           yarn lint
         env:
           CI: true
@@ -30,7 +30,7 @@ jobs:
           node-version: "12.x"
       - name: Build
         run: |
-          yarn --frozen-lockfile --ignore-scripts
+          yarn install --immutable --mode=skip-build
           yarn test:types
         env:
           CI: true
@@ -51,7 +51,7 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - name: Test
         run: |
-          yarn --frozen-lockfile --ignore-scripts
+          yarn install --immutable --mode=skip-build
           yarn test --coverage
         env:
           CI: true

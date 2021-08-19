@@ -23,7 +23,9 @@
     "test:types": "tsc --noEmit",
     "e2e": "echo 'Testing simple preset'&& cd e2e/preset && yarn test && echo 'Testing simple preset in monorepo' && cd ../monorepo && yarn test",
     "build": "rm -rf dist && tsc -p tsconfig.build.json",
-    "prepare": "yarn build && husky install"
+    "postinstall": "yarn build && husky install",
+    "prepublishOnly": "pinst --disable",
+    "postpublish": "pinst --enable"
   },
   "files": [
     "dist",
@@ -44,7 +46,8 @@
   ],
   "dependencies": {
     "@aws/dynamodb-auto-marshaller": "^0.7.1",
-    "dynalite": "^3.0.0"
+    "dynalite": "^3.0.0",
+    "pinst": "^2.1.6"
   },
   "peerDependencies": {
     "@aws-sdk/client-dynamodb": ">=3",
