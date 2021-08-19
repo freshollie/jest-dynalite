@@ -9,6 +9,6 @@
         "jest-dynalite": "portal:../../../../"
     },
     "dependencies": {
-        "aws-sdk": "^2.771.0"
+        "aws-sdk": "^2.971.0"
     }
 }

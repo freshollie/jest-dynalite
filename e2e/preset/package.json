@@ -5,10 +5,10 @@
         "test": "jest"
     },
     "devDependencies": {
-        "jest": "^26.5.2",
+        "jest": "^27.0.6",
         "jest-dynalite": "portal:../../"
     },
     "dependencies": {
-        "aws-sdk": "^2.771.0"
+        "aws-sdk": "^2.971.0"
     }
 }
