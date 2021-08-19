@@ -1,7 +1,7 @@
-const { join } = require("path");
-const base = require("../jest.base");
+import { join } from "path";
+import base from "../jest.base";
 
-module.exports = {
+export default {
   ...base,
   // TODO: use testEnvironment when jest 27 arrives
   setupFiles: [join(__dirname, "setups/setupAdvanced.ts")],

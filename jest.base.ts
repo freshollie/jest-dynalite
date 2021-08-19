@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   rootDir: __dirname,
   coveragePathIgnorePatterns: ["/tests/", "/__testdir__/"],
   collectCoverageFrom: ["<rootDir>/src/**/*.ts", "!<rootDir>/**/*.js"],

@@ -1,7 +1,7 @@
-const { join } = require("path");
-const base = require("../jest.base");
+import { join } from "path";
+import base from "../jest.base";
 
-module.exports = {
+export default {
   ...base,
   setupFiles: [join(__dirname, "setups/setupTablesFunctionTs.ts")],
   setupFilesAfterEnv: [join(__dirname, "setups/setupAdvancedEnv.ts")],

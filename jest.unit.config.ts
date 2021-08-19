@@ -1,6 +1,6 @@
-const base = require("./jest.base");
+import base from "./jest.base";
 
-module.exports = {
+export default {
   ...base,
   testPathIgnorePatterns: ["/node_modules/", "/tests/", "/e2e/"],
   displayName: {
