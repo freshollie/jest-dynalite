@@ -6235,6 +6235,7 @@ fsevents@^2.3.2:
     lint-staged: ^11.1.2
     pinst: ^2.1.6
     prettier: ^2.3.2
+    setimmediate: ^1.0.5
     ts-node: ^10.2.1
     typescript: ^4.3.5
   peerDependencies:
@@ -8468,6 +8469,13 @@ fsevents@^2.3.2:
   version: 2.0.0
   resolution: "set-blocking@npm:2.0.0"
   checksum: 6e65a05f7cf7ebdf8b7c75b101e18c0b7e3dff4940d480efed8aad3a36a4005140b660fa1d804cb8bce911cac290441dc728084a30504d3516ac2ff7ad607b02
+  languageName: node
+  linkType: hard
+
+"setimmediate@npm:^1.0.5":
+  version: 1.0.5
+  resolution: "setimmediate@npm:1.0.5"
+  checksum: c9a6f2c5b51a2dabdc0247db9c46460152ffc62ee139f3157440bd48e7c59425093f42719ac1d7931f054f153e2d26cf37dfeb8da17a794a58198a2705e527fd
   languageName: node
   linkType: hard
 

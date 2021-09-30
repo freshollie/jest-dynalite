@@ -1,3 +1,5 @@
+// setimmediate polyfill must be imported first as `dynalite` depends on it
+import "setimmediate";
 import dynalite from "dynalite";
 import { getTables, getDynalitePort } from "./config";
 import { hasV3 } from "./utils";
