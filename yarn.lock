@@ -6171,7 +6171,7 @@ fsevents@^2.3.2:
   dependencies:
     "@aws/dynamodb-auto-marshaller": ^0.7.1
     dynalite: ^3.2.1
-    pinst: ^2.1.6
+    setimmediate: ^1.0.5
   peerDependencies:
     "@aws-sdk/client-dynamodb": ">=3"
     aws-sdk: 2.x.x
@@ -6190,7 +6190,7 @@ fsevents@^2.3.2:
   dependencies:
     "@aws/dynamodb-auto-marshaller": ^0.7.1
     dynalite: ^3.2.1
-    pinst: ^2.1.6
+    setimmediate: ^1.0.5
   peerDependencies:
     "@aws-sdk/client-dynamodb": ">=3"
     aws-sdk: 2.x.x
