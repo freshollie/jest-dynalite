@@ -23,9 +23,8 @@
     "test:types": "tsc --noEmit",
     "e2e": "echo 'Testing simple preset'&& cd e2e/preset && yarn test && echo 'Testing simple preset in monorepo' && cd ../monorepo && yarn test",
     "build": "rm -rf dist && tsc -p tsconfig.build.json",
-    "postinstall": "yarn build && husky install",
-    "prepack": "yarn build && pinst --disable",
-    "postpack": "pinst --enable"
+    "postinstallDev": "yarn build && husky install",
+    "prepack": "yarn build"
   },
   "files": [
     "dist",
@@ -87,7 +86,6 @@
     "jest": "^27.0.6",
     "jest-environment-node": "^27.0.6",
     "lint-staged": "^11.1.2",
-    "pinst": "^2.1.6",
     "prettier": "^2.3.2",
     "ts-node": "^10.2.1",
     "typescript": "^4.3.5"
