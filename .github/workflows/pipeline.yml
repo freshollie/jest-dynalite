@@ -96,7 +96,7 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - name: Publish
         run: |
-          yarn --frozen-lockfile
+          yarn --immutable
           yarn config set -H 'npmAuthToken' "${{secrets.NPM_TOKEN}}"
           yarn npm publish
         env:
