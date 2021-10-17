@@ -1,0 +1,14 @@
+{
+    "name": "jest-dynalite-e2e-config-directory",
+    "private": true,
+    "scripts": {
+        "test": "jest"
+    },
+    "devDependencies": {
+        "jest": "^27.0.6",
+        "jest-dynalite": "portal:../../"
+    },
+    "dependencies": {
+        "aws-sdk": "^2.971.0"
+    }
+}

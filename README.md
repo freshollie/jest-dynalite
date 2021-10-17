@@ -69,8 +69,7 @@ run the database only for suites which use it. Please see [advanced config](###A
 
 ## Config
 
-In your jest project root (next to your `jest.config.js`), create a `jest-dynalite-config.js` (or `.ts`) with the tables schemas,
-and an optional `basePort` to run dynalite on:
+In your jest project `rootDir` (by default, next to your `jest.config.js`), create a `jest-dynalite-config.js` (or `.ts`) with the tables schemas, and an optional `basePort` to run dynalite on.
 
 ```js
 // use export default for ts based configs
@@ -132,6 +131,8 @@ module.exports = {
 };
 ```
 
+If you want to use a different directory for your config, [this can be done](###Custom-config-directory)
+
 ## Update your sourcecode
 
 ```javascript
@@ -174,7 +175,23 @@ between tests.
 
 **Important**: Only use this option if you don't have a custom `testEnvironment` set in your `jest.config.js` file.
 
-[Please see example](example/)
+[Please see example](e2e/simple)
+
+### Custom config directory
+
+It may be the case that your dynalite config isn't in the jest `rootDir`.
+
+If so, you can specify `jestDynaliteConfigDirectory` in the jest `testEnvironmentOptions`
+
+```javascript
+module.exports = {
+  ...
+  preset: "jest-dynalite",
+  testEnvironmentOptions: {
+
+  }
+}
+```
 
 ### Advanced setup
 
@@ -187,7 +204,7 @@ setupBeforeEnv.js
 ```javascript
 import { setup } from "jest-dynalite";
 
-// You must give it a config directory
+// You must give it the directory to find your jest dynalite config
 setup(__dirname);
 ```
 
@@ -231,7 +248,7 @@ afterEach(deleteTables);
 afterAll(stopDb);
 ```
 
-### Other options
+### Other configurations
 
 jest.config.js
 

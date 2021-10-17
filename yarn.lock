@@ -6140,6 +6140,16 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
+"jest-dynalite-e2e-config-directory@workspace:e2e/config-directory":
+  version: 0.0.0-use.local
+  resolution: "jest-dynalite-e2e-config-directory@workspace:e2e/config-directory"
+  dependencies:
+    aws-sdk: ^2.971.0
+    jest: ^27.0.6
+    jest-dynalite: "portal:../../"
+  languageName: unknown
+  linkType: soft
+
 "jest-dynalite-e2e-monorepo@workspace:e2e/monorepo":
   version: 0.0.0-use.local
   resolution: "jest-dynalite-e2e-monorepo@workspace:e2e/monorepo"
@@ -6161,6 +6171,25 @@ fsevents@^2.3.2:
 "jest-dynalite@portal:../../../../::locator=monorepo-package%40workspace%3Ae2e%2Fmonorepo%2Fpackages%2Fkeystore":
   version: 0.0.0-use.local
   resolution: "jest-dynalite@portal:../../../../::locator=monorepo-package%40workspace%3Ae2e%2Fmonorepo%2Fpackages%2Fkeystore"
+  dependencies:
+    "@aws/dynamodb-auto-marshaller": ^0.7.1
+    dynalite: ^3.2.1
+    setimmediate: ^1.0.5
+  peerDependencies:
+    "@aws-sdk/client-dynamodb": ">=3"
+    aws-sdk: 2.x.x
+    jest: ">=20"
+  peerDependenciesMeta:
+    "@aws-sdk/client-dynamodb":
+      optional: true
+    aws-sdk:
+      optional: true
+  languageName: node
+  linkType: soft
+
+"jest-dynalite@portal:../../::locator=jest-dynalite-e2e-config-directory%40workspace%3Ae2e%2Fconfig-directory":
+  version: 0.0.0-use.local
+  resolution: "jest-dynalite@portal:../../::locator=jest-dynalite-e2e-config-directory%40workspace%3Ae2e%2Fconfig-directory"
   dependencies:
     "@aws/dynamodb-auto-marshaller": ^0.7.1
     dynalite: ^3.2.1
