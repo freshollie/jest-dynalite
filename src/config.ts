@@ -63,8 +63,7 @@ export const setConfigDir = (directory: string): void => {
 export const getDynalitePort = (): number => {
   const config = readConfig();
   return (
-    (config.basePort ?? 8000) +
-    parseInt(process.env.JEST_WORKER_ID as string, 10)
+    (config.basePort ?? 8000) + parseInt(process.env.JEST_WORKER_ID || "0", 10)
   );
 };
 
