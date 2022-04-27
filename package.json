@@ -21,7 +21,7 @@
     "lint": "yarn build && eslint --ext js,jsx,ts,tsx .",
     "test": "jest",
     "test:types": "tsc --noEmit",
-    "e2e": "echo 'Testing simple preset'&& cd e2e/preset && yarn test && echo 'Testing simple preset in monorepo' && cd ../monorepo && yarn test",
+    "e2e": "echo 'Testing simple preset'&& cd e2e/preset && yarn test && echo 'Testing global setup' && cd ../global-setup && yarn test && echo 'Testing simple preset in monorepo' && cd ../monorepo && yarn test",
     "build": "rm -rf dist && tsc -p tsconfig.build.json",
     "postinstallDev": "yarn build && husky install",
     "prepack": "yarn build"

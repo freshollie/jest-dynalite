@@ -6140,6 +6140,16 @@ fsevents@^2.3.2:
   languageName: node
   linkType: hard
 
+"jest-dynalite-e2e-global-setup@workspace:e2e/global-setup":
+  version: 0.0.0-use.local
+  resolution: "jest-dynalite-e2e-global-setup@workspace:e2e/global-setup"
+  dependencies:
+    aws-sdk: ^2.971.0
+    jest: ^27.0.6
+    jest-dynalite: "portal:../../"
+  languageName: unknown
+  linkType: soft
+
 "jest-dynalite-e2e-monorepo@workspace:e2e/monorepo":
   version: 0.0.0-use.local
   resolution: "jest-dynalite-e2e-monorepo@workspace:e2e/monorepo"
@@ -6148,9 +6158,9 @@ fsevents@^2.3.2:
   languageName: unknown
   linkType: soft
 
-"jest-dynalite-example@workspace:e2e/preset":
+"jest-dynalite-e2e-preset@workspace:e2e/preset":
   version: 0.0.0-use.local
-  resolution: "jest-dynalite-example@workspace:e2e/preset"
+  resolution: "jest-dynalite-e2e-preset@workspace:e2e/preset"
   dependencies:
     aws-sdk: ^2.971.0
     jest: ^27.0.6
@@ -6177,9 +6187,28 @@ fsevents@^2.3.2:
   languageName: node
   linkType: soft
 
-"jest-dynalite@portal:../../::locator=jest-dynalite-example%40workspace%3Ae2e%2Fpreset":
+"jest-dynalite@portal:../../::locator=jest-dynalite-e2e-global-setup%40workspace%3Ae2e%2Fglobal-setup":
   version: 0.0.0-use.local
-  resolution: "jest-dynalite@portal:../../::locator=jest-dynalite-example%40workspace%3Ae2e%2Fpreset"
+  resolution: "jest-dynalite@portal:../../::locator=jest-dynalite-e2e-global-setup%40workspace%3Ae2e%2Fglobal-setup"
+  dependencies:
+    "@aws/dynamodb-auto-marshaller": ^0.7.1
+    dynalite: ^3.2.1
+    setimmediate: ^1.0.5
+  peerDependencies:
+    "@aws-sdk/client-dynamodb": ">=3"
+    aws-sdk: 2.x.x
+    jest: ">=20"
+  peerDependenciesMeta:
+    "@aws-sdk/client-dynamodb":
+      optional: true
+    aws-sdk:
+      optional: true
+  languageName: node
+  linkType: soft
+
+"jest-dynalite@portal:../../::locator=jest-dynalite-e2e-preset%40workspace%3Ae2e%2Fpreset":
+  version: 0.0.0-use.local
+  resolution: "jest-dynalite@portal:../../::locator=jest-dynalite-e2e-preset%40workspace%3Ae2e%2Fpreset"
   dependencies:
     "@aws/dynamodb-auto-marshaller": ^0.7.1
     dynalite: ^3.2.1

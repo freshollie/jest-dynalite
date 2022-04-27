@@ -258,7 +258,7 @@ create a `setup.js` and `teardown.js` files with the following content:
 ```javascript
 // setup.js
 
-import { startDb, createTables } from "jest-dynalite";
+import { startDb, createTables, setup } from "jest-dynalite";
 
 module.exports = async () => {
   // You must provide a config directory
@@ -273,7 +273,7 @@ module.exports = async () => {
 
 import { stopDb, deleteTables } from "jest-dynalite";
 
-module.exports = async function () {
+module.exports = async () => {
   // Cleanup after tests
   await deleteTables();
   await stopDb();
