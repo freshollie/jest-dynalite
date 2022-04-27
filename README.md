@@ -231,6 +231,50 @@ afterEach(deleteTables);
 afterAll(stopDb);
 ```
 
+If you want to start & setup the db **only** once for all your suites,
+create a `setup.js` and `teardown.js` files with the following content:
+
+```javascript
+// setup.js
+
+import { startDb, createTables } from "jest-dynalite";
+
+module.exports = async () => {
+  // You must provide a config directory
+  setup(__dirname);
+  await startDb();
+  await createTables();
+};
+```
+
+```javascript
+// teardown.js
+
+import { stopDb, deleteTables } from "jest-dynalite";
+
+module.exports = async function () {
+  // Cleanup after tests
+  await deleteTables();
+  await stopDb();
+};
+```
+
+You then must add the setup files to your jest config
+
+jest.config.js
+
+```javascript
+module.exports = {
+  ...
+  globalSetup: ["./setup.js"],
+  globalTeardown: ["./teardown.js"],
+}
+```
+
+**IMPORTANT NOTE**
+
+Be aware that the only one instance of dynalite will start.
+
 ### Other options
 
 jest.config.js
