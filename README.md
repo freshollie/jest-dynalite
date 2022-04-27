@@ -248,9 +248,9 @@ module.exports = {
 }
 ```
 
-#### One dynalite instance
-
 This setup should be used if you want to override the default config of `clearAfterEach`, but still want to use the most simple configuration.
+
+#### One dynalite instance
 
 If you want to start & setup the db **only** once for all your suites,
 create a `setup.js` and `teardown.js` files with the following content:
