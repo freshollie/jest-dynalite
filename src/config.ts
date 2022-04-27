@@ -61,9 +61,13 @@ export const setConfigDir = (directory: string): void => {
 };
 
 export const getDynalitePort = (): number => {
-  const config = readConfig();
-  return (
-    (config.basePort ?? 8000) + parseInt(process.env.JEST_WORKER_ID || "0", 10)
+  const { basePort = 8000 } = readConfig();
+  if (Number.isInteger(basePort) && basePort > 0 && basePort <= 65535) {
+    return basePort + parseInt(process.env.JEST_WORKER_ID || "0", 10);
+  }
+
+  throw new TypeError(
+    `Option "basePort" must be an number between 1 and 65535. Received "${basePort.toString()}"`
   );
 };
 
