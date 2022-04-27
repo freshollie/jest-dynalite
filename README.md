@@ -294,7 +294,7 @@ module.exports = {
 
 **IMPORTANT NOTE**
 
-Be aware that the only one instance of dynalite will start.
+Be aware that the only one instance of dynalite will start, which may cause test issues if multiple runners are editing the same data.
 
 ## Development
 
