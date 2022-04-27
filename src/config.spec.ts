@@ -53,4 +53,12 @@ describe("Config", () => {
 
     expect(getDynalitePort()).toBe(expectedPort);
   });
+
+  test("should throw an error if basePort in config file is invalid", () => {
+    jest.resetModules();
+    // @ts-ignore
+    mockedConfig.mockReturnValue({ basePort: "this is not a number" });
+
+    expect(getDynalitePort).toThrowError(TypeError);
+  });
 });
