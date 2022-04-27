@@ -231,6 +231,27 @@ afterEach(deleteTables);
 afterAll(stopDb);
 ```
 
+### Other options
+
+jest.config.js
+
+```javascript
+module.exports = {
+  ...
+  testEnvironment: "jest-dynalite/environment",
+
+  setupFilesAfterEnv: [
+    "jest-dynalite/setupTables",
+    // Optional (but recommended)
+    "jest-dynalite/clearAfterEach"
+  ]
+}
+```
+
+#### One dynalite instance
+
+This setup should be used if you want to override the default config of `clearAfterEach`, but still want to use the most simple configuration.
+
 If you want to start & setup the db **only** once for all your suites,
 create a `setup.js` and `teardown.js` files with the following content:
 
@@ -274,25 +295,6 @@ module.exports = {
 **IMPORTANT NOTE**
 
 Be aware that the only one instance of dynalite will start.
-
-### Other options
-
-jest.config.js
-
-```javascript
-module.exports = {
-  ...
-  testEnvironment: "jest-dynalite/environment",
-
-  setupFilesAfterEnv: [
-    "jest-dynalite/setupTables",
-    // Optional (but recommended)
-    "jest-dynalite/clearAfterEach"
-  ]
-}
-```
-
-This setup should be used if you want to override the default config of `clearAfterEach`, but still want to use the most simple configuration.
 
 ## Development
 
