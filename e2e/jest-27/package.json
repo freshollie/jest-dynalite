@@ -1,11 +1,11 @@
 {
-    "name": "jest-dynalite-e2e-preset",
+    "name": "jest-dynalite-e2e-jest-27",
     "private": true,
     "scripts": {
         "test": "jest"
     },
     "devDependencies": {
-        "jest": "^28.0.2",
+        "jest": "^27.0.2",
         "jest-dynalite": "portal:../../"
     },
     "dependencies": {

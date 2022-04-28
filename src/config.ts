@@ -49,7 +49,7 @@ const readConfig = (): Config => {
     return importedConfig;
   } catch (e) {
     throw new Error(
-      `Something went wrong reading your ${configFile}: ${e.message}`
+      `Something went wrong reading your ${configFile}: ${(e as Error).message}`
     );
   }
 };

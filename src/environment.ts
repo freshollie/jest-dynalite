@@ -1,16 +1,27 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import NodeEnvironment from "jest-environment-node";
-import type { Config } from "@jest/types";
+import type {
+  EnvironmentContext,
+  JestEnvironmentConfig,
+} from "@jest/environment";
 import setup from "./setup";
 import { start, stop } from "./db";
 import { CONFIG_FILE_NAME, CONFIG_FILE_NAME_TS, NotFoundError } from "./config";
 
 class DynaliteEnvironment extends NodeEnvironment {
-  constructor(projectConfig: Config.ProjectConfig) {
+  constructor(config: JestEnvironmentConfig, _context: EnvironmentContext) {
     // The config directory is based on the root directory
     // of the project config
 
-    const { rootDir } = projectConfig;
+    const compatConfig =
+      "projectConfig" in config
+        ? config
+        : // For jest <= 27 the config was the project config
+          // so use that
+          ({ projectConfig: config } as unknown as JestEnvironmentConfig);
+
+    const { rootDir } = compatConfig.projectConfig;
+
     try {
       setup(rootDir);
     } catch (e) {
@@ -30,7 +41,7 @@ For more information, please see https://github.com/freshollie/jest-dynalite/#br
       throw e;
     }
 
-    super(projectConfig);
+    super(compatConfig, _context);
   }
 
   public async setup(): Promise<void> {

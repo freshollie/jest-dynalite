@@ -8,6 +8,6 @@
         "test": "jest"
     },
     "devDependencies": {
-        "jest": "^27.0.6"
+        "jest": "^28.0.2"
     }
 }
