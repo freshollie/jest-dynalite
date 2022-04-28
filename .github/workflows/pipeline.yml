@@ -8,10 +8,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js 12
+      - name: Use Node.js 16
         uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: "16.x"
       - name: Lint
         run: |
           yarn install --immutable --mode=skip-build
@@ -24,10 +24,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v1
-      - name: Use Node.js 12
+      - name: Use Node.js 16
         uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: "16.x"
       - name: Build
         run: |
           yarn install --immutable --mode=skip-build
@@ -41,7 +41,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x]
+        node-version: [14.x, 16.x]
 
     steps:
       - uses: actions/checkout@v1
@@ -89,10 +89,10 @@ jobs:
     if: startsWith(github.ref, 'refs/tags/v') && contains(github.ref, '.')
     steps:
       - uses: actions/checkout@master
-      - name: Use Node.js 12
+      - name: Use Node.js 16
         uses: actions/setup-node@v1
         with:
-          node-version: "12.x"
+          node-version: "16.x"
           registry-url: "https://registry.npmjs.org"
       - name: Publish
         run: |
