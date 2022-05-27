@@ -6,7 +6,12 @@ import type {
 } from "@jest/environment";
 import setup from "./setup";
 import { start, stop } from "./db";
-import { CONFIG_FILE_NAME, CONFIG_FILE_NAME_TS, NotFoundError } from "./config";
+import {
+  CONFIG_FILE_NAME,
+  CONFIG_FILE_NAME_CJS,
+  CONFIG_FILE_NAME_TS,
+  NotFoundError,
+} from "./config";
 
 class DynaliteEnvironment extends NodeEnvironment {
   constructor(config: JestEnvironmentConfig, _context: EnvironmentContext) {
@@ -27,7 +32,7 @@ class DynaliteEnvironment extends NodeEnvironment {
     } catch (e) {
       if (e instanceof NotFoundError) {
         throw new Error(`
-jest-dynalite could not find "${CONFIG_FILE_NAME}" or "${CONFIG_FILE_NAME_TS}" in the jest <rootDir> (${rootDir}).
+jest-dynalite could not find "${CONFIG_FILE_NAME}" or "${CONFIG_FILE_NAME_CJS}" or "${CONFIG_FILE_NAME_TS}" in the jest <rootDir> (${rootDir}).
 
 If you didn't intend to be using this directory for the config, please specify a custom
 directory: https://github.com/freshollie/jest-dynalite/#advanced-setup
