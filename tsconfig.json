@@ -9,6 +9,11 @@
     "sourceMap": true,
     "declaration": true
   },
-  "include": ["src/**/*.ts", "tests/**/*.ts", "types/**/*.d.ts"],
+  "include": [
+    "src/**/*.ts",
+    "tests/**/*.ts",
+    "tests/**/*.cjs",
+    "types/**/*.d.ts"
+  ],
   "exclude": ["dist"]
 }
