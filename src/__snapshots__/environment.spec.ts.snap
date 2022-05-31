@@ -2,7 +2,7 @@
 
 exports[`Environment should throw an error if config file could not be located 1`] = `
 "
-jest-dynalite could not find \\"jest-dynalite-config.js\\" or \\"jest-dynalite-config.ts\\" in the jest <rootDir> (somebaddirectory).
+jest-dynalite could not find \\"jest-dynalite-config.js\\" or \\"jest-dynalite-config.cjs\\" or \\"jest-dynalite-config.ts\\" in the jest <rootDir> (somebaddirectory).
 
 If you didn't intend to be using this directory for the config, please specify a custom
 directory: https://github.com/freshollie/jest-dynalite/#advanced-setup
