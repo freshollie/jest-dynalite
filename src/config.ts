@@ -67,7 +67,7 @@ export const setConfigDir = (directory: string): void => {
 export const getDynalitePort = (): number => {
   const { basePort = 8000 } = readConfig();
   if (Number.isInteger(basePort) && basePort > 0 && basePort <= 65535) {
-    return basePort + parseInt(process.env.JEST_WORKER_ID || "0", 10);
+    return basePort + parseInt(process.env.JEST_WORKER_ID || "1", 10);
   }
 
   throw new TypeError(
