@@ -3,7 +3,6 @@ import { Config } from "./types";
 import { getDynalitePort, setConfigDir } from "./config";
 
 const BASE_PORT = 8443;
-const DEFAULT_BASE_PORT = 8000;
 
 const mockedConfig = jest.fn((): Config => ({ basePort: BASE_PORT }));
 const configPath = "/fakepath/jest-dynalite-config.js";
@@ -40,18 +39,21 @@ describe("Config", () => {
     const port = getDynalitePort();
 
     expect(port).not.toBeNaN();
-    expect(port).toBe(BASE_PORT);
+    expect(port).toBe(BASE_PORT + 1);
 
     process.env.JEST_WORKER_ID = workerId;
   });
 
-  test("if basePort is not defined then port 8000 will be used as a default", () => {
+  test("if basePort is not defined then port 8001 will be used as a default", () => {
+    const workerId = process.env.JEST_WORKER_ID;
+    delete process.env.JEST_WORKER_ID;
+
     jest.resetModules();
     mockedConfig.mockReturnValue({});
-    const expectedPort =
-      DEFAULT_BASE_PORT + parseInt(process.env.JEST_WORKER_ID || "0", 10);
 
-    expect(getDynalitePort()).toBe(expectedPort);
+    expect(getDynalitePort()).toBe(8001);
+
+    process.env.JEST_WORKER_ID = workerId;
   });
 
   test("should throw an error if basePort in config file is invalid", () => {
