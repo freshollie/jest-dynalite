@@ -17,6 +17,10 @@ const dbConnection = (port: number): Connection => {
     endpoint: `http://localhost:${port}`,
     sslEnabled: false,
     region: "local",
+    credentials: {
+      accessKeyId: "accessKeyId",
+      secretAccessKey: "secretAccessKey",
+    },
   };
 
   connection = {
